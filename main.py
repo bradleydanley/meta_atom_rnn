@@ -8,7 +8,6 @@ import sys
 import os
 import pickle
 import time
-from IPython import embed
 
 import utils.evaluate as evaluate
 import utils.network.train as train
@@ -65,7 +64,7 @@ def experiment(params):
 if __name__ == "__main__":
 
     # Load: Configuration File
-
+    print("in main")
     params = load_config(sys.argv)
     params['dataset']['seq_len'] = params['seq_len']
     params['network']['arch'] = params['arch']
