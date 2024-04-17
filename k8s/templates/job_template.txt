@@ -20,7 +20,8 @@ spec:
             - name: NCCL_DEBUG
               value: INFO
           command: ["/bin/sh", "-c"]
-          args: ["echo test_{{arch}}_{{sequence}} >> {{path_logs}}/logs.log"]
+          args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git .;
+                  echo test_{{arch}}_{{sequence}} >> {{path_logs}}/logs.log"]
           resources:
             limits:
               memory: 64Gi 
