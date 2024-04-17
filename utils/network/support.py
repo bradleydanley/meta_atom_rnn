@@ -82,6 +82,7 @@ def get_all_model_predictions(params, all_paths, data):
 
     return all_results
 
+
 def get_vmin_vmax(preds):
 
     data = {'version_0': {'real': {'vmins': [], 'vmaxes': []}, 'imag': {'vmins': [], 'vmaxes': []}},

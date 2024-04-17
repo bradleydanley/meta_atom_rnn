@@ -26,6 +26,7 @@ def experiment(params):
        
         start_time = time.time()
 
+        print("we made it to def experiment() in main.py")
         #train.run(params)
 
         elapsed_time = time.time() - start_time    

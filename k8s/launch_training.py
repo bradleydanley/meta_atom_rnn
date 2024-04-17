@@ -64,12 +64,14 @@ def run(params):
     
 if __name__=="__main__":
 
+    kill = True
     args = parse_args(sys.argv)
 
     params = load_config(args['config'])
 
-    #embed()
-    run(params)
-    #kill_tags = params['kube']['kill_tags']
-    #for kill_tag in kill_tags: 
-    #    exit_handler(params,kill_tag)
+    if kill == False:
+        run(params)
+    elif kill == True:
+        kill_tags = params['kube']['kill_tags']
+        for kill_tag in kill_tags: 
+            exit_handler(params,kill_tag)
