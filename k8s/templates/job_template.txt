@@ -21,7 +21,7 @@ spec:
               value: INFO
           command: ["/bin/sh", "-c"]
           args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git .;
-                  echo test_{{arch}}_{{sequence}} >> {{path_logs}}/logs.log"]
+                  echo cloned repo for arch {{arch}}, sequence {{sequence}} >> {{path_logs}}/logs.log"]
           resources:
             limits:
               memory: 64Gi 

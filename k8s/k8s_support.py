@@ -23,6 +23,18 @@ def exit_handler(params,kill_tag): # always run this script after this file ends
 
     print("\nCleaned up any jobs that include tag : %s\n" % kill_tag)   
 
+def load_file(path):
+
+    data_file = open(path, "r")
+    
+    info = ""
+
+    for line in data_file:
+        info += line
+
+    data_file.close()
+
+    return info
 
 def save_file(path, data):
 
@@ -32,15 +44,6 @@ def save_file(path, data):
 
     data_file.close()
 
-def create_folder(path):
-
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-    else:
-        print(f"path {path} already exists.")
-
-"""
 def parse_args(all_args, tags = ["--", "-"]):
 
     all_args = all_args[1:]
@@ -61,24 +64,8 @@ def parse_args(all_args, tags = ["--", "-"]):
         i += 2
 
     return results
-"""
-def load_file(path):
 
-    data_file = open(path, "r")
-    
-    info = ""
-
-    for line in data_file:
-        info += line
-
-    data_file.close()
-
-    return info
-
-"""
 def load_config(argument):
-
-    embed()    
 
     try:
         return yaml.load(open(argument), Loader = yaml.FullLoader) 
@@ -87,5 +74,4 @@ def load_config(argument):
         print("\nError: Loading YAML Configuration File") 
         print("\nSuggestion: Using YAML file? Check File For Errors\n")
         print(e)
-        exit()        
-"""
+        exit()

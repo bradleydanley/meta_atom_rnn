@@ -9,7 +9,10 @@ from dateutil.tz import tzutc
 from kubernetes import client, config
 from jinja2 import Environment, FileSystemLoader
 
-from k8s_support import load_config, load_file, parse_args, create_folder, save_file, exit_handler
+from k8s_support import exit_handler, load_file, save_file, parse_args, load_config
+
+sys.path.append("../")
+from utils.general import create_folder
 
 def run(params):
 
@@ -65,7 +68,8 @@ if __name__=="__main__":
 
     params = load_config(args['config'])
 
-    #run(params)
-    kill_tags = params['kube']['kill_tags']
-    for kill_tag in kill_tags: 
-        exit_handler(params,kill_tag)
+    #embed()
+    run(params)
+    #kill_tags = params['kube']['kill_tags']
+    #for kill_tag in kill_tags: 
+    #    exit_handler(params,kill_tag)

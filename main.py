@@ -26,7 +26,7 @@ def experiment(params):
        
         start_time = time.time()
 
-        train.run(params)
+        #train.run(params)
 
         elapsed_time = time.time() - start_time    
         write_stats(params, elapsed_time) 
