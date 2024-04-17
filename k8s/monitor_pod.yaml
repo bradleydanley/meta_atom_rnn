@@ -1,0 +1,29 @@
+# kubectl apply -f monitor_pod.yaml
+# kubectl exec -it andy-monitor -- /bin/bash
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: andy-monitor
+spec:
+  containers:
+    - name: andy-monitor
+      image: docker.io/kovaleskilab/meep:v3_lightning
+      stdin: True
+      tty: True
+      resources:
+        limits:
+          memory: 8G
+          cpu: 6
+        requests:
+          memory: 6G
+          cpu: 6
+      volumeMounts:
+        - name: meep-dataset-v2
+          mountPath: /develop/data
+  volumes:
+    - name: meep-dataset-v2
+      persistentVolumeClaim:
+        claimName: meep-dataset-v2
+
+  restartPolicy: Never

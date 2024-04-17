@@ -1,0 +1,107 @@
+# Purpose: Configuration File
+# Author: Andy
+
+# Create: Expriment Parameter
+# - 0 = train network, 1 = load results, 2 = do evaluation
+
+experiment: 0  
+
+# Create: System Parameters
+# - num_workers: number of cpus for data loader
+# - strategy: lightning trainer configuration
+# - num_devices: number of acceleration devices
+# - accelerator: type of acceleration device (i.e., cpu, cuda, mps)
+
+system:
+  num_workers: 3
+  gpus: 
+    strategy : auto
+    num_devices : 1
+    accelerator : cuda 
+
+# Create: Dataset Parameters
+# - seq_len: number of sequential slices per sample
+
+dataset:
+  seq_len:  
+  vmin_real:
+  vmax_imag:
+
+# Create: General Network Parameters
+# - arch: network architecture (0 = rnn, 1 = lstm, 2 = convlstm)
+# - batch_size: number of samples for one network observation
+# - num_epochs: number of times algorithm observes entire train dataset
+# - learning_rate: step size of gradient descent optimization
+
+network:
+  arch: 
+  batch_size: 4
+  num_epochs: 200
+  learning_rate: 0.01
+
+# Create: RNN / LSTM Parameters
+# - num_layers: number of rnn / lstm layers (i.e., stacked networks)
+# - i_dims: number of input dimensions for rnn / lstm
+# - h_dims: number of hidden dimensions for rnn / lstm
+
+rnn_lstm:
+  num_layers: 5
+  i_dims: 55112
+  h_dims: 256
+
+# Create: ConvLSTM Parameters
+# - in_channels: in channels of convolution for convlstm
+# - kernel_size: kernel size of convolution for convlstm
+# - padding: padding size of convolution for convlstm
+
+convlstm:
+  num_layers: 1
+  in_channels: 2
+  out_channels: 2
+  kernel_size: 3
+  padding: 1
+  spatial: 166
+
+# Create: Path Parameters
+# - data: path to dataset folder
+# - results: path to results folder
+
+paths:
+  train: /develop/data/meep-dataset-v2/reduced_data/train
+  valid: /develop/data/meep-dataset-v2/reduced_data/valid
+  results: /develop/results/meta_atom_rnn
+  analysis: /develop/results/meta_atom_rnn/analysis
+  params: /develop/code/meta_atom_rnn/configs/params.yaml
+  #timing: /develop/results/meta_atom_rnn/timing
+  timing: /develop/results/timing
+  
+  #train: /Users/slane/Documents/research/data/andy_spie/train
+  #valid: /Users/slane/Documents/research/data/andy_spie/valid
+  #results: /Users/slane/Documents/research/results/andy_spie
+
+
+# Create: Visualize Parameters
+
+visualize:
+  all_versions: [0, 1]
+  exclude_group: [epoch, step]
+  #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+  sequences: [5,10,15]
+  domain : real
+
+kube:
+  path_image : docker.io/kovaleskilab/meep:v3_lightning
+  path_template : templates/job_template.txt
+  path_job_files : /develop/data/kube_jobs
+  path_logs : /develop/data/current_logs
+  path_data : /develop/data
+  
+  sequence :
+  arch :
+  
+  namespace : gpn-mizzou-muem
+  pvc_name : meep-dataset-v2
+  kill_tags : [rnn,lstm]
+
+arch:
+seq_len:
