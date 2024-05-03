@@ -2,9 +2,9 @@
 # Author: Andy
 
 # Create: Expriment Parameter
-# - 0 = train network, 1 = load results, 2 = do evaluation
+# - 0 = train network, 1 = load results, 2 = do evaluation, 3 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
 
-experiment: 0  
+experiment: 3 
 
 # Create: System Parameters
 # - num_workers: number of cpus for data loader
@@ -74,11 +74,6 @@ paths:
   params: /develop/code/meta_atom_rnn/configs/params.yaml
   #timing: /develop/results/meta_atom_rnn/timing
   timing: /develop/results/timing
-  
-  #train: /Users/slane/Documents/research/data/andy_spie/train
-  #valid: /Users/slane/Documents/research/data/andy_spie/valid
-  #results: /Users/slane/Documents/research/results/andy_spie
-
 
 # Create: Visualize Parameters
 
@@ -90,11 +85,21 @@ visualize:
   domain : real
 
 kube:
-  path_image : docker.io/kovaleskilab/meep:v3_lightning
-  path_template : templates/job_template.txt
-  path_job_files : /develop/data/kube_jobs
-  path_logs : /develop/data/current_logs
-  path_data : /develop/data
+  paths:
+    image : docker.io/kovaleskilab/meep:v3_lightning
+    library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
+    data :
+      volumes : /develop/results  # points to folder containing reduced volumes in pvc called dft-volumes
+      preprocessed_data : /develop/data/preprocessed_data # points to folder containing data after it has been preprocessed in pvc called preprocessed-data 
+    results :
+      model_checkpoints : /develop/results/checkpoints
+      analysis : /develop/analysis 
+
+  #path_image : docker.io/kovaleskilab/meep:v3_lightning
+  #path_template : templates/job_template.txt
+  #path_job_files : /develop/data/kube_jobs
+  #path_logs : /develop/data/current_logs
+  #path_data : /develop/data
   
   sequence :
   arch :

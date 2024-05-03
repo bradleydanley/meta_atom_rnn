@@ -1,4 +1,5 @@
-# kubectl apply -f monitor_pod.yaml
+# this is being used as the raw dataset monitor
+# kubectl apply -f monitor.yaml
 # kubectl exec -it andy-monitor -- /bin/bash
 
 apiVersion: v1
@@ -8,16 +9,16 @@ metadata:
 spec:
   containers:
     - name: andy-monitor
-      image: docker.io/kovaleskilab/meep:v3_lightning
+      image: docker.io/kovaleskilab/deep-optics:v1 
       stdin: True
       tty: True
       resources:
         limits:
-          memory: 8G
-          cpu: 6
+          memory: 4Gi
+          cpu: 2
         requests:
-          memory: 6G
-          cpu: 6
+          memory: 4Gi
+          cpu: 2
       volumeMounts:
         - name: meep-dataset-v2
           mountPath: /develop/data
@@ -26,4 +27,3 @@ spec:
       persistentVolumeClaim:
         claimName: meep-dataset-v2
 
-  restartPolicy: Never

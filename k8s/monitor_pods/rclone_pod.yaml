@@ -1,0 +1,43 @@
+# This yaml file needs some work. can't be bash-enabled/interactive. Hint: https://github.com/MU-HPDI/nautilus/blob/main/kube/cloudstorage/rclone_pod.yml
+
+# kubectl apply -f monitor_pod.yaml
+# kubectl exec -it andy-monitor -- /bin/bash
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raw-data-monitor
+spec:
+  containers:
+    - name: raw-data-monitor
+      image: rclone/rclone 
+      stdin: True
+      tty: True
+      command: ["bash"]
+      #command: ["/bin/sh", "-c", "sleep", "infinity"]
+      env:
+        - name: RCLONE_CONFIG_NAUTILUS_TYPE
+          value: s3
+        - name: RCLONE_CONFIG_NAUTILUS_ENDPOINT
+          value: http://rook-ceph-rgw-centrals3.rook-central
+        - name: RCLONE_CONFIG_NAUTILUS_PROVIDER
+          value: Other
+        - name: RCLONE_CONFIG_NAUTILUS_ACCESS_KEY_ID
+          value: JPKIHDAZY41Q5IPG1SPM 
+        - name: RCLONE_CONFIG_NAUTILUS_SECRET_ACCESS_KEY
+          value: 2AZNOB1ivWEGKV1UYK6HDb5KuEJJ0s5dxDBxQPEE
+      resources:
+        limits:
+          memory: 4Gi
+          cpu: 2
+        requests:
+          memory: 4Gi
+          cpu: 2
+      volumeMounts:
+        - name: meep-dataset-v2
+          mountPath: /develop/data
+  volumes:
+    - name: meep-dataset-v2
+      persistentVolumeClaim:
+        claimName: meep-dataset-v2
+

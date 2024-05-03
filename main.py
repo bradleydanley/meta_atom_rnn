@@ -56,6 +56,15 @@ def experiment(params):
         write_stats(params, elapsed_time)
 
     # Otherwise: Not Implemented
+    elif params["experiment"] == 3:
+        import time
+
+        start_time = time.time()
+
+        preprocess.run(params)
+
+        elapsed_time = time.time() - start_time()
+        write_stats(params, elapsed_time)
 
     else:
         raise NotImplementedError

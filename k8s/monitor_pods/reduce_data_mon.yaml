@@ -1,0 +1,32 @@
+# use this with general_3x3/kubernetes/preprocess_data.py
+
+
+# kubectl apply -f preprocess_mon.yaml
+# kubectl exec -it preprocess-monitor -- /bin/bash
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: reduce-data-monitor
+spec:
+  containers:
+    - name: reduce-data-monitor
+      image: docker.io/kovaleskilab/meep:v3_lightning
+      stdin: True
+      tty: True
+      resources:
+        limits:
+          memory: 4Gi
+          cpu: 2
+        requests:
+          memory: 4Gi
+          cpu: 2
+      volumeMounts:
+        - name: dft-volumes 
+          mountPath: /develop/results
+  volumes:
+    - name: dft-volumes 
+      persistentVolumeClaim:
+        claimName: dft-volumes 
+
+  restartPolicy: Never

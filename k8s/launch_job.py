@@ -1,3 +1,5 @@
+#  Creating kubernetes jobs for LSTM and RNN training
+
 import os
 import sys
 import yaml
@@ -24,12 +26,6 @@ def run(params):
 
     create_folder(params['kube']['path_job_files'])
 
-    #job_tags = params['visualize']['sequences'] * 2 # each sequence gets trained on rnn and lstm
-
-    #counter = 0
-
-    #current_group = []
-
     sequences = params['visualize']['sequences']
     arches = [0, 1]
 
@@ -48,8 +44,8 @@ def run(params):
                              'path_image': params['kube']['path_image'],
                              'path_logs': params['kube']['path_logs'],
                              'pvc_name': params['kube']['pvc_name'],
-                             'sequence': params['dataset']['seq_len'],
-                             'arch': params['network']['arch'], 
+                             'sequence': sequence,
+                             'arch': arch, 
                             }
 
             filled_template = template.render(template_info)
@@ -66,12 +62,15 @@ if __name__=="__main__":
 
     kill = False
     #kill = True
+
     args = parse_args(sys.argv)
 
     params = load_config(args['config'])
 
     if kill == False:
+
         run(params)
+
     elif kill == True:
         kill_tags = params['kube']['kill_tags']
         for kill_tag in kill_tags: 
