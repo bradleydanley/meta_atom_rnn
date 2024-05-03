@@ -28,6 +28,11 @@ spec:
         - name: {{job_name}}
           image: {{path_image}}
           command: ["/bin/sh", "-c"]
+
+            ### UPDATE THIS! 
+              # we should be cloning the meta_atom_rnn repo and calling main.py which will 
+              # call preprocess.run() 
+
           args: ["git clone https://github.com/Kovaleski-Research-Lab/general_3x3.git; 
                 cd general_3x3;
                 git checkout andy_branch;

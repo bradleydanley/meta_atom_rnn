@@ -29,20 +29,25 @@ def create_folder(folder_path):
 
 def run(params):
 
-    library = pickle.load(open(params['kube']['paths']['library'],"rb"))
+    library = pickle.load(open(params['kube']['paths']['library'],'rb'))
 
     path_volumes = params['kube']['paths']['data']['volumes']
     path_pp_data = params['kube']['paths']['data']['pp_data']
 
+    print(path_volumes)
+    print(path_volumes)
     #exclude = ['0000.pkl','0001.pkl','0002.pkl','0003.pkl','0004.pkl']
     exclude = []
     i = 0
+
     with os.scandir(path_volumes) as entries:
 
         for entry in entries:
+
             i += 1
             if i > 4:
                 break
+
             if entry.name.endswith(".pkl") and entry.name not in exclude:
 
                 # get radii/phase for sample
@@ -71,4 +76,5 @@ def run(params):
 
                 with open(filepath,"wb") as f:
                     pickle.dump(data, f)
+                    print(f"{filename} dumped to {filepath}")
 
