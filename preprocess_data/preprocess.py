@@ -43,7 +43,8 @@ def run(params):
         for entry in entries:
 
             i += 1
-            if i > 4:
+            print(f"test i = {i}", flush=True)
+            if i > 3:
                 break
 
             if entry.name.endswith(".pkl") and entry.name not in exclude:

@@ -63,7 +63,7 @@ def experiment(params):
 
         preprocess.run(params)
 
-        elapsed_time = time.time() - start_time()
+        elapsed_time = time.time() - start_time
         write_stats(params, elapsed_time)
 
     else:
