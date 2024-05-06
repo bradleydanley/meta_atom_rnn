@@ -1,7 +1,6 @@
 import os
 import sys
 import yaml
-from IPython import embed
 
 from kubernetes import client, config
 import subprocess

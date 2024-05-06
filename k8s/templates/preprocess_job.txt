@@ -13,32 +13,16 @@ spec:
       name: {{job_name}}
       namespace: gpn-mizzou-muem
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-                - key: nvidia.com/gpu.product
-                  operator: In
-                  values:
-                  - "NVIDIA-A100-SXM4-80GB"
       restartPolicy: Never
       containers:
         - name: {{job_name}}
           image: {{path_image}}
           command: ["/bin/sh", "-c"]
 
-            ### UPDATE THIS! 
-              # we should be cloning the meta_atom_rnn repo and calling main.py which will 
-              # call preprocess.run() 
-
-          args: ["git clone https://github.com/Kovaleski-Research-Lab/general_3x3.git; 
-                cd general_3x3;
-                git checkout andy_branch;
-                echo checkout out branch successfully for job {{job_name}} >> {{path_logs}}/test.log;
-                pip install h5py;
-                python3 preprocess.py >> {{path_logs}}/preprocess.log"]
+          args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git; 
+                cd preprocess_data;
+                echo pwd >> {{path_logs}}/test.log;
+                python3 main.py -config configs/params.yaml >> {{path_logs}}/pp.log"]
           resources:
             limits:
               memory: {{num_mem_lim}}
@@ -47,15 +31,17 @@ spec:
               memory: {{num_mem_req}}
               cpu: {{num_cpus}}
           volumeMounts:
-            - name: {{pvc_name}}
-              mountPath: /develop/results
-      tolerations:
-        - key: "nautilus.io/andy-varner"
-          operator: "Exists"
-          effect: "NoSchedule"
-      nodeName: gpn-fiona-mizzou-2.rnet.missouri.edu
+            - name: {{pvc_volumes}}
+              #mountPath: /develop/results
+              mountPath: {{volumes_path}}  
+            - name: {{pvc_preprocessed}}
+              mountPath: {{preprocessed_path}}
+
       volumes:
-        - name: {{pvc_name}} 
+        - name: {{pvc_volumes}}  # this is where the reduced volumes are 
           persistentVolumeClaim:
-            claimName: {{pvc_name}}# k8s/templates/preprocess_job.txt #
+            claimName: {{pvc_volumes}}
+        - name: {{pvc_preprocessed}}  # this is where we dump the preprocessed data 
+          persistentVolumeClaim:
+            claimName: {{pvc_preprocessed}}
 

@@ -7,7 +7,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: reduce-data-monitor
+  name: dft-vols-monitor
 spec:
   containers:
     - name: reduce-data-monitor

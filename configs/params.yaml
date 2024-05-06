@@ -84,9 +84,13 @@ visualize:
   sequences: [5,10]
   domain : real
 
-kube:
-  paths:
-    image : docker.io/kovaleskilab/meep:v3_lightning
+kube :
+  image : docker.io/kovaleskilab/meep:v3_lightning
+  num_cpus : 4
+  num_mem_lim : 150Gi 
+  num_mem_req : 100Gi
+  
+  paths :
     library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
     data :
       volumes : /develop/results  # points to folder containing reduced volumes in pvc called dft-volumes
@@ -94,19 +98,19 @@ kube:
     results :
       model_checkpoints : /develop/results/checkpoints
       analysis : /develop/analysis 
-
-  #path_image : docker.io/kovaleskilab/meep:v3_lightning
-  #path_template : templates/job_template.txt
-  #path_job_files : /develop/data/kube_jobs
-  #path_logs : /develop/data/current_logs
+    template : templates/preprocess_job.txt
+    job_files : /develop/data/kube_jobs
+    logs : /develop/data/current_logs
   #path_data : /develop/data
   
   sequence :
   arch :
   
   namespace : gpn-mizzou-muem
-  pvc_name : meep-dataset-v2
+  pvc_volumes : dft-volumes
+  pvc_preprocessed : preprocessed-data 
   kill_tags : [rnn,lstm]
+  pp_kill_tag : preprocess
 
 arch:
 seq_len:

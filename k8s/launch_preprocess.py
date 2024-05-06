@@ -17,60 +17,40 @@ from utils.general import create_folder
 
 def run(params):
 
-    template = load_file(params['kube']['path_template'])
-    tag = params['kube']['path_template'].split("/")[-1]
-    folder = params['kube']['path_template'].replace("/%s" % tag, "")
+   
+    template = load_file(params['kube']['paths']['template'])
+    
+    tag = params['kube']['paths']['template'].split("/")[-1]
+    folder = params['kube']['paths']['template'].replace("/%s" % tag, "")
     environment = Environment(loader = FileSystemLoader(folder))
     template = environment.get_template(tag)
 
-    create_folder(params['kube']['path_job_files'])
+    job_name = "%s" % (params['kube']['pp_kill_tag'])
 
-    sequences = params['visualize']['sequences']
-    arches = [0, 1]
+    template_info = {'job_name' : job_name,
+                     'num_cpus' : str(params['kube']['num_cpus']),
+                     'num_mem_lim' : str(params['kube']['num_mem_lim']),
+                     'num_mem_req' : str(params['kube']['num_mem_req']),
+                     'pvc_volumes' : params['kube']['pvc_volumes'],
+                     'volumes_path' : params['kube']['paths']['data']['volumes'],
+                     'pvc_preprocessed' : params['kube']['pvc_preprocessed'],
+                     'preprocessed_path' : params['kube']['paths']['data']['preprocessed_data'],
+                     'path_image' : params['kube']['image'],
+                     'path_logs' : params['kube']['paths']['logs'], 
+                    }
 
-    for sequence in sequences:
+    filled_template = template.render(template_info)
 
-        params['dataset']['seq_len'] = sequence 
+    #from IPython import embed; embed(); exit()
+    path_job = os.path.join(params['kube']['paths']['job_files'], job_name + ".yaml")
+    save_file(path_job, filled_template)
 
-        for arch in arches:
+    subprocess.run(['kubectl', 'apply', '-f', path_job])
 
-            params['network']['arch'] = arch
-            
-            arch_str = 'rnn' if arch == 0 else 'lstm' 
-            job_name = "%s-%s" % (arch_str, str(sequence).zfill(2))
-
-            template_info = {'job_name': job_name,
-                             'path_image': params['kube']['path_image'],
-                             'path_logs': params['kube']['path_logs'],
-                             'pvc_name': params['kube']['pvc_name'],
-                             'sequence': sequence,
-                             'arch': arch, 
-                            }
-
-            filled_template = template.render(template_info)
-
-            path_job = os.path.join(params['kube']['path_job_files'], job_name.zfill(2) + ".yaml")
-
-            save_file(path_job, filled_template)
-
-            subprocess.run(['kubectl', 'apply', '-f', path_job])
-            print(f"launching job for {arch}, {sequence}")
-         
-    
 if __name__=="__main__":
-
-    kill = False
-    #kill = True
 
     args = parse_args(sys.argv)
 
     params = load_config(args['config'])
 
-    if kill == False:
-
-        run(params)
-
-    elif kill == True:
-        kill_tags = params['kube']['kill_tags']
-        for kill_tag in kill_tags: 
-            exit_handler(params,kill_tag)
+    run(params)
