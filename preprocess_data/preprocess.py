@@ -38,8 +38,6 @@ def run(params):
     exclude = []
     i = 0
     #from IPython import embed; embed(); exit()
-    print("end of test")
-    exit()
     with os.scandir(path_volumes) as entries:
 
         for entry in entries:

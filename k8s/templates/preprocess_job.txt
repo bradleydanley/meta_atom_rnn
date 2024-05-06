@@ -20,9 +20,9 @@ spec:
           command: ["/bin/sh", "-c"]
 
           args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git; 
-                cd preprocess_data;
-                echo pwd >> {{path_logs}}/test.log;
-                python3 main.py -config configs/params.yaml >> {{path_logs}}/pp.log"]
+                ls;
+                echo pwd;
+                python3 /develop/code/meta_atom_rnn/main.py -config /develop/code/meta_atom_rnn/configs/params.yaml"]
           resources:
             limits:
               memory: {{num_mem_lim}}
