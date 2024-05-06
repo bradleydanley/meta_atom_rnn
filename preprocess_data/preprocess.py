@@ -34,8 +34,8 @@ def run(params):
     path_volumes = params['kube']['paths']['data']['volumes']
     path_pp_data = params['kube']['paths']['data']['preprocessed_data']
 
-    #exclude = ['0000.pkl','0001.pkl','0002.pkl','0003.pkl','0004.pkl']
-    exclude = []
+    exclude = ['0430.pkl','0720.pkl','0922.pkl','1158.pkl']
+    #exclude = []
     i = 0
     #from IPython import embed; embed(); exit()
     with os.scandir(path_volumes) as entries:

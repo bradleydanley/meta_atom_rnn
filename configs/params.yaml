@@ -91,6 +91,7 @@ kube :
   num_mem_req : 100Gi
   
   paths :
+    timing : /develop/data/timing
     library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
     data :
       volumes : /develop/results  # points to folder containing reduced volumes in pvc called dft-volumes

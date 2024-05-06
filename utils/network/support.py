@@ -156,7 +156,8 @@ def organize_analysis(params, dir_name, tag, file_type):
 
 def write_stats(params, time):
 
-    path_timing = params['paths']['timing'] 
+    #path_timing = params['paths']['timing'] 
+    path_timing = params['kube']['paths']['timing'] 
 
     if params['experiment'] == 0:
         label = 'train_network'
