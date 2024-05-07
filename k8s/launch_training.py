@@ -38,7 +38,7 @@ def run(params):
             params['network']['arch'] = arch
             
             arch_str = 'rnn' if arch == 0 else 'lstm' 
-            job_name = "%s-%s" % (arch_str, str(sequence).zfill(2))
+            job_name = "%s-%s" % (arch_str, str(sequence))
 
             template_info = {'job_name': job_name,
                              'num_cpus': str(params['kube']['train_job']['num_cpus']),

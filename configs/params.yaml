@@ -80,8 +80,8 @@ local_paths:
 visualize:
   all_versions: [0, 1]
   exclude_group: [epoch, step]
-  #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  sequences: [5,10]
+  sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+  #sequences: [5,10]
   domain : real
 
 kube :
@@ -113,9 +113,9 @@ kube :
       template : templates/preprocess_job.txt
 
   train_job :
-    num_cpus : 4
+    num_cpus : 1
     num_mem_lim : 256Gi
-    num_mem_req : 256Gi
+    num_mem_req : 128Gi
     num_gpus : 1
     kill_tags : [rnn,lstm]
     sequence :

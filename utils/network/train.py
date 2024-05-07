@@ -19,7 +19,7 @@ from utils.general import create_folder
 def run(params):
 
     #experiment_path = os.path.join(params['paths']['results'], "k_" + str(params['dataset']['seq_len']))
-    experiment_path = os.path.join(params['kube']['train_job']['paths']['results']['analysis'], "k_" + str(params['dataset']['seq_len']))
+    experiment_path = os.path.join(params['kube']['train_job']['paths']['results']['analysis'], "k_" + str(params['dataset']['seq_len']).zfill(2))
 
     create_folder(experiment_path) 
     path_save = os.path.join(experiment_path)

@@ -41,6 +41,7 @@ def experiment(params):
         load_results.run(params)
 
         elapsed_time = time.time() - start_time
+        print(f"elapsed time = {elapsed_time}")
         write_stats(params, elapsed_time)
 
     # Experiment: Evaluation
