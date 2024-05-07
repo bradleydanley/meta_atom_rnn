@@ -18,34 +18,33 @@ from utils.general import create_folder
 def run(params):
 
    
-    template = load_file(params['kube']['paths']['template'])
+    template = load_file(params['kube']['pp_job']['paths']['template'])
     
-    tag = params['kube']['paths']['template'].split("/")[-1]
-    folder = params['kube']['paths']['template'].replace("/%s" % tag, "")
+    tag = params['kube']['pp_job']['paths']['template'].split("/")[-1]
+    folder = params['kube']['pp_job']['paths']['template'].replace("/%s" % tag, "")
     environment = Environment(loader = FileSystemLoader(folder))
     template = environment.get_template(tag)
 
-    job_name = "%s" % (params['kube']['pp_kill_tag'])
+    job_name = "%s" % (params['kube']['pp_job']['kill_tag'])
 
     template_info = {'job_name' : job_name,
-                     'num_cpus' : str(params['kube']['num_cpus']),
-                     'num_mem_lim' : str(params['kube']['num_mem_lim']),
-                     'num_mem_req' : str(params['kube']['num_mem_req']),
+                     'num_cpus' : str(params['kube']['pp_job']['num_cpus']),
+                     'num_mem_lim' : str(params['kube']['pp_job']['num_mem_lim']),
+                     'num_mem_req' : str(params['kube']['pp_job']['num_mem_req']),
                      'pvc_volumes' : params['kube']['pvc_volumes'],
-                     'volumes_path' : params['kube']['paths']['data']['volumes'],
+                     'volumes_path' : params['kube']['pp_job']['paths']['data']['volumes'],
                      'pvc_preprocessed' : params['kube']['pvc_preprocessed'],
-                     'preprocessed_path' : params['kube']['paths']['data']['preprocessed_data'],
+                     'preprocessed_path' : params['kube']['pp_job']['paths']['data']['preprocessed_data'],
                      'path_image' : params['kube']['image'],
-                     'path_logs' : params['kube']['paths']['logs'], 
                     }
 
     filled_template = template.render(template_info)
 
     #from IPython import embed; embed(); exit()
-    path_job = os.path.join(params['kube']['paths']['job_files'], job_name + ".yaml")
+    path_job = os.path.join(params['kube']['job_files'], job_name + ".yaml")
     save_file(path_job, filled_template)
 
-    subprocess.run(['kubectl', 'apply', '-f', path_job])
+    #subprocess.run(['kubectl', 'apply', '-f', path_job])
 
 if __name__=="__main__":
 

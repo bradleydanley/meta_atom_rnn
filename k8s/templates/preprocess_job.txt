@@ -30,7 +30,6 @@ spec:
               cpu: {{num_cpus}}
           volumeMounts:
             - name: {{pvc_volumes}}
-              #mountPath: /develop/results
               mountPath: {{volumes_path}}  
             - name: {{pvc_preprocessed}}
               mountPath: {{preprocessed_path}}

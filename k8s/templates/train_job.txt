@@ -25,20 +25,26 @@ spec:
                   python3 main.py -config configs/params.yaml -arch {{arch}} -seq_len {{seq_len}} > {{path_logs}}/logs_{{arch}}_{{sequence}}.log "]
           resources:
             limits:
-              memory: 64Gi 
-              cpu: 4
-              nvidia.com/gpu: 1
+              memory: {{num_mem_lim}} 
+              cpu: {{num_cpus}} 
+              nvidia.com/gpu: {{num_gpu_lim}}
             requests:
-              memory: 64Gi 
-              cpu: 4 
-              nvidia.com/gpu: 1
+              memory: {{num_mem_req}}
+              cpu: {{num_cpus}}
+              nvidia.com/gpu: {{num_gpu_req}}
           volumeMounts:
-            - name: {{pvc_name}}
-              mountPath: /develop/data
+            - name: {{pvc_preprocessed}}
+              mountPath: {{preprocessed_path}}
+            - name: {{pvc_results}}
+              mountPath: {checkpoints_path}}
       volumes:
-        - name: {{pvc_name}}
+        - name: {{pvc_preprocessed}}
           persistentVolumeClaim:
-            claimName: {{pvc_name}}
+            claimName: {{pvc_preprocessed}}
+        - name: {{pvc_results}}
+          persistentVolumeClaim:
+            claimName: {{pvc_results}}
+
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

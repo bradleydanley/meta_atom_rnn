@@ -4,7 +4,7 @@
 # Create: Expriment Parameter
 # - 0 = train network, 1 = load results, 2 = do evaluation, 3 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
 
-experiment: 3 
+experiment: 0 
 
 # Create: System Parameters
 # - num_workers: number of cpus for data loader
@@ -85,33 +85,48 @@ visualize:
   domain : real
 
 kube :
-  image : docker.io/kovaleskilab/meep:v3_lightning
-  num_cpus : 4
-  num_mem_lim : 150Gi 
-  num_mem_req : 100Gi
-  
-  paths :
-    timing : /develop/data/preprocessed_data/timing
-    library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
-    data :
-      volumes : /develop/results  # points to folder containing reduced volumes in pvc called dft-volumes
-      preprocessed_data : /develop/data/preprocessed_data # points to folder containing data after it has been preprocessed in pvc called preprocessed-data 
-    results :
-      model_checkpoints : /develop/results/checkpoints
-      analysis : /develop/analysis 
-    template : templates/preprocess_job.txt
-    job_files : /develop/data/kube_jobs
-    logs : /develop/data/current_logs
-  #path_data : /develop/data
-  
-  sequence :
-  arch :
-  
   namespace : gpn-mizzou-muem
-  pvc_volumes : dft-volumes
+  image : docker.io/kovaleskilab/meep:v3_lightning
+  job_files : /develop/data/kube_jobs  # this is a local directory
+  pvc_volumes : dft-volumes # use `kubectl get pvc` to see list of pvcs
   pvc_preprocessed : preprocessed-data 
-  kill_tags : [rnn,lstm]
-  pp_kill_tag : preprocess
+  pvc_results : training-results
 
+  pp_job:
+    num_cpus : 4
+    num_mem_lim : 150Gi 
+    num_mem_req : 100Gi
+    kill_tag : preprocess
+    
+    paths :
+      # local / repo path where meta-atom radii are stored
+      library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
+      # interactive pod directories
+      data :
+        volumes : /develop/results  # points to folder containing reduced volumes in pvc called dft-volumes
+        preprocessed_data : /develop/data/preprocessed_data # points to folder containing data after it has been preprocessed in pvc called preprocessed-data 
+      timing : /develop/data/preprocessed_data/timing 
+      # local path where template is located
+      template : templates/preprocess_job.txt
+
+  train_job :
+    num_cpus : 4
+    num_mem_lim : 64Gi
+    num_mem_req : 64Gi
+    num_gpu_lim : 1
+    num_gpu_req : 1
+    kill_tags : [rnn,lstm]
+    sequence :
+    arch :
+ 
+    paths :
+      results :
+        # interactive pod directories
+        model_checkpoints : develop/results/checkpoints
+        analysis : develop/results/analysis
+      logs : develop/results/checkpoints/current_logs
+      # local path where template is located
+      template : templates/train_job.txt
+       
 arch:
 seq_len:

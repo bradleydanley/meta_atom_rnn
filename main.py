@@ -62,7 +62,7 @@ def experiment(params):
         start_time = time.time()
         print(f"start time = {start_time}")
 
-        preprocess.run(params)
+        preprocess.run(params) # this is going to launch a kubernetes job.
 
         elapsed_time = time.time() - start_time
         print(f"elapsed time = {elapsed_time}")

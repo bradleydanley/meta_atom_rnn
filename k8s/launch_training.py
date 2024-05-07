@@ -18,13 +18,13 @@ from utils.general import create_folder
 
 def run(params):
 
-    template = load_file(params['kube']['path_template'])
-    tag = params['kube']['path_template'].split("/")[-1]
-    folder = params['kube']['path_template'].replace("/%s" % tag, "")
+    template = load_file(params['kube']['train_job']['paths']['template'])
+    tag = params['kube']['train_job']['paths']['template'].split("/")[-1]
+    folder = params['kube']['train_job']['paths']['path_template'].replace("/%s" % tag, "")
     environment = Environment(loader = FileSystemLoader(folder))
     template = environment.get_template(tag)
 
-    create_folder(params['kube']['path_job_files'])
+    create_folder(params['kube']['job_files'])
 
     sequences = params['visualize']['sequences']
     arches = [0, 1]
@@ -41,6 +41,7 @@ def run(params):
             job_name = "%s-%s" % (arch_str, str(sequence).zfill(2))
 
             template_info = {'job_name': job_name,
+                             'num_cpus': str(params['
                              'path_image': params['kube']['path_image'],
                              'path_logs': params['kube']['path_logs'],
                              'pvc_name': params['kube']['pvc_name'],
