@@ -34,7 +34,7 @@ def run(params):
     path_volumes = params['kube']['paths']['data']['volumes']
     path_pp_data = params['kube']['paths']['data']['preprocessed_data']
 
-    exclude = ['0430.pkl','0720.pkl','0922.pkl','1158.pkl']
+    exclude = ['0430.pkl','0662.pkl','0720.pkl','0922.pkl','1158.pkl']
     #exclude = []
     i = 0
     #from IPython import embed; embed(); exit()
@@ -44,7 +44,7 @@ def run(params):
 
             i += 1
             print(f"test i = {i}", flush=True)
-            if i > 6:
+            if i > 9:
                 break
 
             if entry.name.endswith(".pkl") and entry.name not in exclude:
