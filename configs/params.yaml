@@ -111,8 +111,8 @@ kube :
 
   train_job :
     num_cpus : 4
-    num_mem_lim : 64Gi
-    num_mem_req : 64Gi
+    num_mem_lim : 128Gi
+    num_mem_req : 128Gi
     num_gpus : 1
     kill_tags : [rnn,lstm]
     sequence :
