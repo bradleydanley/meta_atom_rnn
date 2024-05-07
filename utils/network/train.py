@@ -39,6 +39,7 @@ def run(params):
 
     # Create: Logger
 
+    print(f"path_save = {path_save}")
     exp_logger = CSVLogger(save_dir=path_save)
 
     # Create: Trainer

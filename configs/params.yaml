@@ -114,8 +114,8 @@ kube :
 
   train_job :
     num_cpus : 4
-    num_mem_lim : 128Gi
-    num_mem_req : 128Gi
+    num_mem_lim : 256Gi
+    num_mem_req : 256Gi
     num_gpus : 1
     kill_tags : [rnn,lstm]
     sequence :
@@ -127,7 +127,8 @@ kube :
         valid : /develop/data/preprocessed_data/valid
       results :
         # interactive pod directories
-        model_checkpoints : /develop/results/checkpoints
+        model_checkpoints : /develop/results
+        #model_checkpoints : /develop/results/checkpoints
         analysis : /develop/results/analysis
       logs : /develop/results/checkpoints/current_logs
       # local path where template is located
