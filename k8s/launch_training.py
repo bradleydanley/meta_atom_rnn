@@ -20,7 +20,7 @@ def run(params):
 
     template = load_file(params['kube']['train_job']['paths']['template'])
     tag = params['kube']['train_job']['paths']['template'].split("/")[-1]
-    folder = params['kube']['train_job']['paths']['path_template'].replace("/%s" % tag, "")
+    folder = params['kube']['train_job']['paths']['template'].replace("/%s" % tag, "")
     environment = Environment(loader = FileSystemLoader(folder))
     template = environment.get_template(tag)
 
@@ -41,17 +41,23 @@ def run(params):
             job_name = "%s-%s" % (arch_str, str(sequence).zfill(2))
 
             template_info = {'job_name': job_name,
-                             'num_cpus': str(params['
-                             'path_image': params['kube']['path_image'],
-                             'path_logs': params['kube']['path_logs'],
-                             'pvc_name': params['kube']['pvc_name'],
+                             'num_cpus': str(params['kube']['train_job']['num_cpus']),
+                             'num_gpus': str(params['kube']['train_job']['num_gpus']),
+                             'num_mem_req': str(params['kube']['train_job']['num_mem_req']),
+                             'num_mem_lim': str(params['kube']['train_job']['num_mem_lim']),
+                             'pvc_preprocessed': params['kube']['pvc_preprocessed'],
+                             'pp_data_path': params['kube']['pp_job']['paths']['data']['preprocessed_data'],
+                             'pvc_results': params['kube']['pvc_results'],
+                             'ckpt_path': params['kube']['train_job']['paths']['results']['model_checkpoints'],
+                             'path_image': params['kube']['image'],
+                             #'path_logs': params['kube']['path_logs'],
                              'sequence': sequence,
                              'arch': arch, 
                             }
 
             filled_template = template.render(template_info)
 
-            path_job = os.path.join(params['kube']['path_job_files'], job_name.zfill(2) + ".yaml")
+            path_job = os.path.join(params['kube']['job_files'], job_name.zfill(2) + ".yaml")
 
             save_file(path_job, filled_template)
 

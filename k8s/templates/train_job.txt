@@ -21,22 +21,22 @@ spec:
               value: INFO
           command: ["/bin/sh", "-c"]
           args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git .;
-                  echo cloned repo for arch {{arch}}, sequence {{sequence}} >> {{path_logs}}/logs.log;
-                  python3 main.py -config configs/params.yaml -arch {{arch}} -seq_len {{seq_len}} > {{path_logs}}/logs_{{arch}}_{{sequence}}.log "]
+                  echo cloned repo for arch {{arch}}, sequence {{sequence}};
+                  python3 main.py -config configs/params.yaml -arch {{arch}} -seq_len {{seq_len}}"]
           resources:
             limits:
               memory: {{num_mem_lim}} 
               cpu: {{num_cpus}} 
-              nvidia.com/gpu: {{num_gpu_lim}}
+              nvidia.com/gpu: {{num_gpus}}
             requests:
               memory: {{num_mem_req}}
               cpu: {{num_cpus}}
-              nvidia.com/gpu: {{num_gpu_req}}
+              nvidia.com/gpu: {{num_gpus}}
           volumeMounts:
             - name: {{pvc_preprocessed}}
-              mountPath: {{preprocessed_path}}
+              mountPath: {{pp_data_path}}
             - name: {{pvc_results}}
-              mountPath: {checkpoints_path}}
+              mountPath: {{ckpt_path}}
       volumes:
         - name: {{pvc_preprocessed}}
           persistentVolumeClaim:

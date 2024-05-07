@@ -1,0 +1,16 @@
+# For creating PVC to hold training results
+# Intended mounts:
+#       /develop/results/model_checkpoints  --- where lightning logs are dumped
+#       /develop/results/analysis --- for the outputs of evaluate.run()
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: training-results 
+spec:
+  storageClassName: rook-cephfs
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi

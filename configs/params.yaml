@@ -113,8 +113,7 @@ kube :
     num_cpus : 4
     num_mem_lim : 64Gi
     num_mem_req : 64Gi
-    num_gpu_lim : 1
-    num_gpu_req : 1
+    num_gpus : 1
     kill_tags : [rnn,lstm]
     sequence :
     arch :
