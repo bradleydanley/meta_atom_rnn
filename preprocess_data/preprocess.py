@@ -36,6 +36,7 @@ def run(params):
 
     #exclude = ['0430.pkl','0662.pkl','0720.pkl','0922.pkl','1158.pkl']
     exclude = []
+
     #from IPython import embed; embed(); exit()
     with os.scandir(path_volumes) as entries:
 

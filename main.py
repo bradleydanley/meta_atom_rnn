@@ -76,11 +76,9 @@ def experiment(params):
 if __name__ == "__main__":
 
     # Load: Configuration File
-    print("in main")
     params = load_config(sys.argv)
     params['dataset']['seq_len'] = params['seq_len']
     params['network']['arch'] = params['arch']
-    print(params['experiment'])
     
     # Run: Experiment
     experiment(params)
