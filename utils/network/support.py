@@ -163,8 +163,10 @@ def write_stats(params, time):
         label = 'train_network'
     elif params['experiment'] == 1:
         label = 'load_results'
-    else:
+    elif params['experiment'] == 2:
         label = 'run_eval'
+    elif params['experiment'] == 3:
+        label = 'preprocess'
 
     path_write = os.path.join(path_timing, f"timing-stats-{label}.csv")
     file_exists = os.path.isfile(path_write)
