@@ -25,6 +25,7 @@ def experiment(params):
        
         start_time = time.time()
 
+        print(f"Beginning training for {params['network']['num_epochs']} epochs.")
         train.run(params)
 
         elapsed_time = time.time() - start_time    
