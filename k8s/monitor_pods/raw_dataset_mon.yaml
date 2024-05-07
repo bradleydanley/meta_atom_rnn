@@ -5,10 +5,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: andy-monitor
+  name: monitor-raw-data
 spec:
   containers:
-    - name: andy-monitor
+    - name: monitor-raw-data
       image: docker.io/kovaleskilab/deep-optics:v1 
       stdin: True
       tty: True

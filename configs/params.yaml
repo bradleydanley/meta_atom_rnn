@@ -36,7 +36,7 @@ dataset:
 network:
   arch: 
   batch_size: 4
-  num_epochs: 200
+  num_epochs: 20
   learning_rate: 0.01
 
 # Create: RNN / LSTM Parameters
@@ -99,13 +99,16 @@ kube :
     kill_tag : preprocess
     
     paths :
+
       # local / repo path where meta-atom radii are stored
       library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
+
       # interactive pod directories
       data :
         volumes : /develop/results  # points to folder containing reduced volumes in pvc called dft-volumes
         preprocessed_data : /develop/data/preprocessed_data # points to folder containing data after it has been preprocessed in pvc called preprocessed-data 
       timing : /develop/data/preprocessed_data/timing 
+
       # local path where template is located
       template : templates/preprocess_job.txt
 

@@ -25,7 +25,6 @@ def experiment(params):
        
         start_time = time.time()
 
-        print("we made it to def experiment() in main.py")
         train.run(params)
 
         elapsed_time = time.time() - start_time    
@@ -55,7 +54,9 @@ def experiment(params):
         elapsed_time = time.time() - start_time
         write_stats(params, elapsed_time)
 
-    # Otherwise: Not Implemented
+    # Experiment: Preprocess data - takes reduced volumes and extracts y component of 1550.
+    #                             - also determines and stores the radii / phase of the sample's pillars
+
     elif params["experiment"] == 3:
         import time
 
@@ -69,6 +70,7 @@ def experiment(params):
         write_stats(params, elapsed_time)
         
 
+    # Otherwise: Not Implemented
     else:
         raise NotImplementedError
 

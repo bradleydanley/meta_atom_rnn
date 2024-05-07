@@ -7,10 +7,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: dft-vols-monitor
+  name: monitor-dft-vols
 spec:
   containers:
-    - name: reduce-data-monitor
+    - name: monitor-dft-vols
       image: docker.io/kovaleskilab/meep:v3_lightning
       stdin: True
       tty: True

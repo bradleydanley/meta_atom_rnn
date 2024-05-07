@@ -1,11 +1,12 @@
 
+
 apiVersion: v1
 kind: Pod
 metadata:
-  name: monitor-pp-data
+  name: monitor-training-results
 spec:
   containers:
-    - name: monitor-pp-data
+    - name: monitor-training-results
       image: docker.io/kovaleskilab/meep:v3_lightning
       stdin: True
       tty: True
@@ -17,11 +18,11 @@ spec:
           memory: 4Gi
           cpu: 2
       volumeMounts:
-        - name: preprocessed-data 
-          mountPath: /develop/data/preprocessed_data
+        - name: training-results 
+          mountPath: /develop/results
   volumes:
-    - name: preprocessed-data 
+    - name: training-results 
       persistentVolumeClaim:
-        claimName: preprocessed-data 
+        claimName: training-results 
 
   restartPolicy: Never
