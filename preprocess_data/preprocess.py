@@ -44,7 +44,7 @@ def run(params):
 
             i += 1
             print(f"test i = {i}", flush=True)
-            if i > 3:
+            if i > 6:
                 break
 
             if entry.name.endswith(".pkl") and entry.name not in exclude:

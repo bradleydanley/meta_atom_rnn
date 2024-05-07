@@ -60,11 +60,14 @@ def experiment(params):
         import time
 
         start_time = time.time()
+        print(f"start time = {start_time}")
 
         preprocess.run(params)
 
         elapsed_time = time.time() - start_time
+        print(f"elapsed time = {elapsed_time}")
         write_stats(params, elapsed_time)
+        
 
     else:
         raise NotImplementedError
