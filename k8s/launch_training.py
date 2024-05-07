@@ -79,6 +79,6 @@ if __name__=="__main__":
         run(params)
 
     elif kill == True:
-        kill_tags = params['kube']['kill_tags']
+        kill_tags = params['kube']['train_job']['kill_tags']
         for kill_tag in kill_tags: 
             exit_handler(params,kill_tag)

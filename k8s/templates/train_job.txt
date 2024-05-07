@@ -22,7 +22,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git .;
                   echo cloned repo for arch {{arch}}, sequence {{sequence}};
-                  python3 main.py -config configs/params.yaml -arch {{arch}} -seq_len {{seq_len}}"]
+                  python3 main.py -config configs/params.yaml -arch {{arch}} -seq_len {{sequence}}"]
           resources:
             limits:
               memory: {{num_mem_lim}} 

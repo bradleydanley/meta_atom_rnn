@@ -79,7 +79,9 @@ if __name__ == "__main__":
     params = load_config(sys.argv)
     params['dataset']['seq_len'] = params['seq_len']
     params['network']['arch'] = params['arch']
-    
+   
+    print(f"params['dataset']['seq_len'] = {params['dataset']['seq_len']}")
+    print(f"params['network']['arch'] = {params['network']['arch']}")
     # Run: Experiment
     experiment(params)
     
