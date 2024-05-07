@@ -62,8 +62,8 @@ def load_data(params, override_seq_len = 0):
     #path_train = params["paths"]["train"]
     #path_valid = params["paths"]["valid"]
 
-    path_train = params['kube']['train_job']['paths']['train']
-    path_valid = params['kube']['train_job']['paths']['valid']
+    path_train = params['kube']['train_job']['paths']['data']['train']
+    path_valid = params['kube']['train_job']['paths']['data']['valid']
 
     if override_seq_len == 0:
         seq_len = params["dataset"]["seq_len"]
