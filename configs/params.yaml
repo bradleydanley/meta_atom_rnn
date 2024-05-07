@@ -120,8 +120,8 @@ kube :
  
     paths :
       data :
-        train : /develop/results/preprocessed_data/train
-        valid : /develop/results/preprocessed_data/valid
+        train : /develop/data/preprocessed_data/train
+        valid : /develop/data/preprocessed_data/valid
       results :
         # interactive pod directories
         model_checkpoints : /develop/results/checkpoints
