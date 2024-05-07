@@ -66,7 +66,7 @@ convlstm:
 # - data: path to dataset folder
 # - results: path to results folder
 
-paths:
+local_paths:
   train: /develop/data/meep-dataset-v2/reduced_data/train
   valid: /develop/data/meep-dataset-v2/reduced_data/valid
   results: /develop/results/meta_atom_rnn
@@ -119,11 +119,14 @@ kube :
     arch :
  
     paths :
+      data :
+        train : /develop/results/preprocessed_data/train
+        valid : /develop/results/preprocessed_data/valid
       results :
         # interactive pod directories
-        model_checkpoints : develop/results/checkpoints
-        analysis : develop/results/analysis
-      logs : develop/results/checkpoints/current_logs
+        model_checkpoints : /develop/results/checkpoints
+        analysis : /develop/results/analysis
+      logs : /develop/results/checkpoints/current_logs
       # local path where template is located
       template : templates/train_job.txt
        

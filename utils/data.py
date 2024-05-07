@@ -59,8 +59,11 @@ def load_pickle_data(path, seq_len, dtype=np.float32, order=(-1, 0, 1, 2)):
 
 def load_data(params, override_seq_len = 0):
 
-    path_train = params["paths"]["train"]
-    path_valid = params["paths"]["valid"]
+    #path_train = params["paths"]["train"]
+    #path_valid = params["paths"]["valid"]
+
+    path_train = params['kube']['train_job']['paths']['train']
+    path_valid = params['kube']['train_job']['paths']['valid']
 
     if override_seq_len == 0:
         seq_len = params["dataset"]["seq_len"]
