@@ -60,7 +60,8 @@ def run(params):
 
     save_file(path_job, filled_template)
 
-    subprocess.run(['kubectl', 'apply', '-f', path_job])
+    from IPython import embed; embed(); exit()
+    #subprocess.run(['kubectl', 'apply', '-f', path_job])
     print(f"launching job to load_results")
          
     
