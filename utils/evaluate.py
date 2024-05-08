@@ -25,14 +25,15 @@ def run(params):
     # N O T E!! we are running eval for real-valued results.
     print("------ Running Evaluation ------")
 
-    path_analysis = params['paths']['analysis']
+    #path_analysis = params['paths']['analysis']
+    path_analysis = params['kube']['train_job']['paths']['results']['analysis']
 
     all_measures = pickle.load(open(os.path.join(path_analysis,'all_measures.pkl'),'rb')) # this returns aggregates for bar plots
     all_preds = pickle.load(open(os.path.join(path_analysis,'all_preds.pkl'),'rb'))
     all_loss = pickle.load(open(os.path.join(path_analysis,'all_loss.pkl'),'rb'))
 
     print("------ Plotting Loss ------")
-    #plot_loss(params, all_loss) #pass domain_choice='imag' if you want imaginary vals 
+    plot_loss(params, all_loss) #pass domain_choice='imag' if you want imaginary vals 
 
     print("------ Plotting Bar Plots ------")
     plot_bars(params, all_measures)     

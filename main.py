@@ -52,9 +52,11 @@ def experiment(params):
 
         start_time = time.time()
 
+        print("Running evaluation...")
         evaluate.run(params)
 
         elapsed_time = time.time() - start_time
+        print(f"elapsed time = {elapsed_time}")
         write_stats(params, elapsed_time)
 
     # Experiment: Preprocess data - takes reduced volumes and extracts y component of 1550.

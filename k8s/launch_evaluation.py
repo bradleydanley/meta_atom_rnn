@@ -1,4 +1,5 @@
 
+
 #  Creating kubernetes jobs for LSTM and RNN training
 
 import os
@@ -19,9 +20,9 @@ from utils.general import create_folder
 
 def run(params):
 
-    template = load_file(params['kube']['load_results_job']['paths']['template'])
-    tag = params['kube']['load_results_job']['paths']['template'].split("/")[-1]
-    folder = params['kube']['load_results_job']['paths']['template'].replace("/%s" % tag, "")
+    template = load_file(params['kube']['evaluation_job']['paths']['template'])
+    tag = params['kube']['evaluation_job']['paths']['template'].split("/")[-1]
+    folder = params['kube']['evaluation_job']['paths']['template'].replace("/%s" % tag, "")
     environment = Environment(loader = FileSystemLoader(folder))
     template = environment.get_template(tag)
 
@@ -37,7 +38,7 @@ def run(params):
     
     #arch_str = 'rnn' if arch == 0 else 'lstm' 
     #job_name = "%s-%s" % (arch_str, str(sequence))
-    job_name = "load-results"
+    job_name = "evaluation"
 
     template_info = {'job_name': job_name,
                      'num_cpus': str(params['kube']['train_job']['num_cpus']),
