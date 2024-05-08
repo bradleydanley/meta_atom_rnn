@@ -4,7 +4,7 @@
 # Create: Expriment Parameter
 # - 0 = train network, 1 = load results, 2 = do evaluation, 3 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
 
-experiment: 0 
+experiment: 1 
 
 # Create: System Parameters
 # - num_workers: number of cpus for data loader
@@ -80,9 +80,9 @@ local_paths:
 visualize:
   all_versions: [0, 1]
   exclude_group: [epoch, step]
-  #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+  sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
   #sequences: [5,10,55]
-  sequences: [15,20,25,30,35,40,45,50,60]
+  #sequences: [15,20,25,30,35,40,45,50,60]
   domain : real
 
 kube :
