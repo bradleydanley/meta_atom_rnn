@@ -138,6 +138,7 @@ kube :
   load_results_job :
     paths :
       template : templates/load_results_job.txt
+      params: /develop/code/meta_atom_rnn/configs/params.yaml
           
 arch:
 seq_len:
