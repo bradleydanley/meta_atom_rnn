@@ -20,7 +20,7 @@ def get_save_folders(params,path_results,create):
     path_images = os.path.join(path_eval_root, "images")
     path_measures = os.path.join(path_eval_root, "measures")
     path_flipbooks = os.path.join(path_eval_root, "flipbooks")
-    path_results = os.path.join(path_results, "checkpoints", "k_" + str(params['dataset']['seq_len']))
+    path_results = os.path.join(path_results, "checkpoints", "k_" + str(params['dataset']['seq_len']).zfill(2))
 
     if create==True:
         create_folder(path_loss)
