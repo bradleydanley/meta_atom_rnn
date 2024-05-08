@@ -89,6 +89,8 @@ if __name__ == "__main__":
    
     print(f"params['dataset']['seq_len'] = {params['dataset']['seq_len']}")
     print(f"params['network']['arch'] = {params['network']['arch']}")
+    print(f"params['experiment'] = {params['experiment']}")
+
     # Run: Experiment
     experiment(params)
     
