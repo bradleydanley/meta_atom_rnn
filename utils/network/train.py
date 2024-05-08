@@ -64,4 +64,7 @@ def run(params):
     trainer.fit(model=model, train_dataloaders=train, val_dataloaders=valid)
     train_time = start_time - time.time() 
 
+    folder_name
+    yaml.dump(params, open(os.path.join(params_path), 'w'))
+
     return load_time, train_time
