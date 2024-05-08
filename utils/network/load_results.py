@@ -69,6 +69,7 @@ def organize_results(params,path_results):
 
     all_paths = get_save_folders(params,path_results,create=True)
 
+    print(all_paths)
     # Save params:
 
     #save_params(params,all_paths)
