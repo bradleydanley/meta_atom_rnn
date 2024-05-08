@@ -172,13 +172,14 @@ def write_stats(params, time):
     file_exists = os.path.isfile(path_write)
     
     seq_len = params['dataset']['seq_len']
+    network = 'rnn' if params['network']['arch'] == 0 else 'lstm'
 
-    col_names = ['Experiment','Time (s)']
+    col_names = ['network','Seq length','Time (s)']
 
     with open(path_write, mode='a') as f:
 
         writer = csv.writer(f)
         if not file_exists:
             writer.writerow(col_names)
-        writer.writerow([seq_len, time])
+        writer.writerow([network, seq_len, time])
             

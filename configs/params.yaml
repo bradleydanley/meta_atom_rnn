@@ -81,7 +81,8 @@ visualize:
   all_versions: [0, 1]
   exclude_group: [epoch, step]
   #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  sequences: [5,10,55]
+  #sequences: [5,10,55]
+  sequences: [15]
   domain : real
 
 kube :
@@ -114,8 +115,8 @@ kube :
 
   train_job :
     num_cpus : 1
-    num_mem_lim : 256Gi
-    num_mem_req : 128Gi
+    num_mem_lim : 12Gi
+    num_mem_req : 12Gi
     num_gpus : 1
     kill_tags : [rnn,lstm]
     sequence :
@@ -127,8 +128,8 @@ kube :
         valid : /develop/data/preprocessed_data/valid
       results :
         # interactive pod directories
-        model_checkpoints : /develop/results
-        #model_checkpoints : /develop/results/checkpoints
+        model_results : /develop/results
+        model_checkpoints : /develop/results/checkpoints
         analysis : /develop/results/analysis
       logs : /develop/results/checkpoints/current_logs
       # local path where template is located
