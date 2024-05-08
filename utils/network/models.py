@@ -11,7 +11,7 @@ from torch.optim import Adam
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
 from utils.network.convlstm import ConvLSTM
-from pytoch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint
 
 class CustomCheckpointCallback(ModelCheckpoint):
     
