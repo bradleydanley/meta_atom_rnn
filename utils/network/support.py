@@ -89,7 +89,7 @@ def get_vmin_vmax(preds):
            'version_1': {'real': {'vmins': [], 'vmaxes': []}, 'imag': {'vmins': [], 'vmaxes': []}}}
 
     print(type(preds))
-    print(preds.keys)
+    print(preds.keys())
     rnn_data = preds['version_0']
     lstm_data = preds['version_1']
 
