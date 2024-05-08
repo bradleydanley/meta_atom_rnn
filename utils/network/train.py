@@ -12,7 +12,7 @@ from lightning.pytorch.loggers import CSVLogger
 from lightning.pytorch.callbacks import LearningRateMonitor
 
 from utils.data import load_data
-from utils.network.models import Network
+from utils.network.models import Network, CustomCheckpointCallback 
 
 from utils.general import create_folder
 
