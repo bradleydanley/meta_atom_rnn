@@ -418,7 +418,7 @@ def plot_loss(params, all_data, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsi
         params['dataset']['seq_len'] = val
         #all_paths = get_save_folders(params,params['paths']['results'],create=False)
         
-        path_results = params['kube']['train_job']['paths']['results']['analysis']
+        path_results = params['kube']['train_job']['paths']['results']['model_results']
         all_paths = get_save_folders(params,path_results,create=False)
 
         for i, name in enumerate(all_loss[0].columns):

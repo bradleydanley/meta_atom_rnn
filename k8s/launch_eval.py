@@ -27,6 +27,8 @@ def run(params):
     elif experiment == 2:
          job = 'evaluation_job' 
 
+    job_name = job.replace('_','-')    
+
     template = load_file(params['kube'][job]['paths']['template'])
     tag = params['kube'][job]['paths']['template'].split("/")[-1]
     folder = params['kube'][job]['paths']['template'].replace("/%s" % tag, "")
@@ -35,18 +37,7 @@ def run(params):
 
     create_folder(params['kube']['job_files'])
 
-    #for sequence in sequences:
-
-    #params['dataset']['seq_len'] = sequence 
-
-    #for arch in arches:
-
-    #params['network']['arch'] = arch
-    
-    #arch_str = 'rnn' if arch == 0 else 'lstm' 
-    #job_name = "%s-%s" % (arch_str, str(sequence))
-
-    template_info = {'job_name': job,
+    template_info = {'job_name': job_name,
                      'num_cpus': str(params['kube']['train_job']['num_cpus']),
                      'num_gpus': str(params['kube']['train_job']['num_gpus']),
                      'num_mem_req': str(params['kube']['load_results_job']['num_mem_req']),
@@ -62,14 +53,13 @@ def run(params):
 
     filled_template = template.render(template_info)
 
-    path_job = os.path.join(params['kube']['job_files'], job.zfill(2) + ".yaml")
+    path_job = os.path.join(params['kube']['job_files'], job_name.zfill(2) + ".yaml")
 
     save_file(path_job, filled_template)
 
 
     print(f"launching {job}")
-    from IPython import embed; embed(); exit()
-    #subprocess.run(['kubectl', 'apply', '-f', path_job])
+    subprocess.run(['kubectl', 'apply', '-f', path_job])
          
     
 if __name__=="__main__":
