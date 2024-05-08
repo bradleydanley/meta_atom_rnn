@@ -11,7 +11,18 @@ from torch.optim import Adam
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
 from utils.network.convlstm import ConvLSTM
+from pytoch_lightning.callbacks import ModelCheckpoint
 
+class CustomCheckpointCallback(ModelCheckpoint):
+    
+    def __init__(self, folder_name):
+
+        super().__init__()
+        self.folder_name = folder_name
+
+    def _get_metric_interpolated_filepath_name(self, interpolation_values, epoch, logs):
+
+        return f'{self.folder_name}_{epoch:02d}'
 
 class Network(L.LightningModule):
 
@@ -177,6 +188,3 @@ class Network(L.LightningModule):
 
         return all_pred
 
-    def training_epoch_end(self, params):
-
-        self.log_dict({'arch': params['network']['arch']},on_epoch=True)
