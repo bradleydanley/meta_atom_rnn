@@ -36,7 +36,7 @@ spec:
             - name: {{pvc_preprocessed}}
               mountPath: {{pp_data_path}}
             - name: {{pvc_results}}
-              mountPath: {{ckpt_path}}
+              mountPath: {{results_path}}
             - name: shm 
               mountPath: /dev/shm
 

@@ -176,3 +176,7 @@ class Network(L.LightningModule):
             all_pred = self.arch(x)
 
         return all_pred
+
+    def training_epoch_end(self, params):
+
+        self.log_dict({'arch': params['network']['arch']},on_epoch=True)

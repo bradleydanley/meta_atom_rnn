@@ -48,6 +48,7 @@ def run(params):
                              'pvc_preprocessed': params['kube']['pvc_preprocessed'],
                              'pp_data_path': params['kube']['pp_job']['paths']['data']['preprocessed_data'],
                              'pvc_results': params['kube']['pvc_results'],
+                             'results_path': params['kube']['train_job']['paths']['results'],
                              'ckpt_path': params['kube']['train_job']['paths']['results']['model_checkpoints'],
                              'path_image': params['kube']['image'],
                              #'path_logs': params['kube']['path_logs'],
@@ -68,7 +69,7 @@ def run(params):
 if __name__=="__main__":
 
     kill = False
-    #kill = True
+    kill = True
 
     args = parse_args(sys.argv)
 
