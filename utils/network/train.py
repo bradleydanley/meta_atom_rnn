@@ -46,13 +46,14 @@ def run(params):
 
     lr_monitor = LearningRateMonitor(logging_interval="epoch")
 
-    folder_name = f"{params['network']['arch']}"
-    checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name)
+    folder_name = f"./{params['network']['arch']}"
+    #checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name)
 
     trainer = L.Trainer(callbacks=[lr_monitor],
                         accelerator=accelerator, strategy=strategy,
                         devices=num_devices, max_epochs=num_epochs,
-                        log_every_n_steps=1, logger=exp_logger)
+                        log_every_n_steps=1, logger=exp_logger,
+                        default_root_dir=folder_name)
 
     # Train: Model
 
