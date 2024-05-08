@@ -12,7 +12,8 @@ from lightning.pytorch.loggers import CSVLogger
 from lightning.pytorch.callbacks import LearningRateMonitor
 
 from utils.data import load_data
-from utils.network.models import Network, CustomCheckpointCallback 
+#from utils.network.models import Network, CustomCheckpointCallback 
+from utils.network.models import Network, ModelCheckpoint 
 
 from utils.general import create_folder
 
@@ -47,8 +48,9 @@ def run(params):
     lr_monitor = LearningRateMonitor(logging_interval="epoch")
 
     arch = f"./{params['network']['arch']}"
-    folder_name = "rnn" if arch == 0 else 'lstm'
-    checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name, arch=folder_name)
+    folder_name = "rnn/" if arch == 0 else 'lstm/'
+    #checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name, arch=folder_name)
+    checkpoint_callback = ModelCheckpoint(dirpath=folder_name)
 
     trainer = L.Trainer(callbacks=[lr_monitor],
                         accelerator=accelerator, strategy=strategy,
