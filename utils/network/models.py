@@ -15,14 +15,14 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 
 class CustomCheckpointCallback(ModelCheckpoint):
     
-    def __init__(self, folder_name):
+    def __init__(self, folder_name, arch):
 
         super().__init__()
         self.folder_name = folder_name
 
     def _get_metric_interpolated_filepath_name(self, interpolation_values, epoch, logs):
 
-        return f'{self.folder_name}_{epoch:02d}'
+        return f'{self.folder_name}_{epoch:02d}_{arch}'
 
 class Network(L.LightningModule):
 
