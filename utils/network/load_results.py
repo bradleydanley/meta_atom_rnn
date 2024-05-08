@@ -121,7 +121,7 @@ def run(params):
 
     path_results = params['paths']['results']
     #path_results =  
-    create_folder(os.path.join(path_results 'analysis'))
+    create_folder(os.path.join(path_results, 'analysis'))
     
     create_folder(os.path.join(params['paths']['results'], 'analysis'))
 
