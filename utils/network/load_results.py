@@ -78,9 +78,11 @@ def organize_results(params,path_results):
     all_loss = []
     for version in all_versions:
         tag = "version_%s" % version
+        print(f"tag = {tag}")
         path_folder = os.path.join(all_paths["training_root"], "lightning_logs", tag)
+        print(f"path_folder = {path_folder}")
         path_file = os.path.join(path_folder, "metrics.csv")
-    
+        print(f"path_file = {path_file}") 
         if os.path.exists(path_file):
     
             print("Path Loss: %s\n" % path_file)
