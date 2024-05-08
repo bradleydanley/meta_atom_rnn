@@ -48,7 +48,7 @@ def run(params):
 
     arch = f"./{params['network']['arch']}"
     folder_name = "rnn" if arch == 0 else 'lstm'
-    checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name)
+    checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name, arch=folder_name)
 
     trainer = L.Trainer(callbacks=[lr_monitor],
                         accelerator=accelerator, strategy=strategy,
