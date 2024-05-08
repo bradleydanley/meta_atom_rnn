@@ -47,7 +47,7 @@ def get_save_folders(params,path_results,create):
 
 def save_params(params,all_paths):
 
-    with open(params['paths']['params'], 'r') as file:
+    with open(params['local_paths']['params'], 'r') as file:
 
         try:
             params = yaml.load(file, Loader=yaml.FullLoader)
