@@ -119,11 +119,11 @@ def organize_results(params):
 
 def run(params):
 
-    path_results = params['paths']['results']
-    #path_results =  
+    #path_results = params['paths']['results']
+    path_results =  params['kube']['train_job']['model_results']
     create_folder(os.path.join(path_results, 'analysis'))
     
-    create_folder(os.path.join(params['paths']['results'], 'analysis'))
+    #create_folder(os.path.join(params['paths']['results'], 'analysis'))
 
     sequences = params['visualize']['sequences'] 
 
@@ -138,21 +138,21 @@ def run(params):
         all_measures[val] = measures
         
     try:
-        with open(os.path.join(params['paths']['results'], 'analysis', 'all_preds.pkl'), 'wb') as f: 
+        with open(os.path.join(path_results, 'analysis', 'all_preds.pkl'), 'wb') as f: 
             pickle.dump(all_preds, f)
         print("Preds file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
-        with open(os.path.join(params['paths']['results'], 'analysis', 'all_measures.pkl'), 'wb') as f: 
+        with open(os.path.join(path_results, 'analysis', 'all_measures.pkl'), 'wb') as f: 
             pickle.dump(all_measures, f)
         print("Measures file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
-        with open(os.path.join(params['paths']['results'], 'analysis', 'all_loss.pkl'), 'wb') as f: 
+        with open(os.path.join(path_results, 'analysis', 'all_loss.pkl'), 'wb') as f: 
             pickle.dump(all_loss, f)
         print("Loss file dumped successfully.")
     except Exception as e:

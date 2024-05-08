@@ -38,7 +38,7 @@ def experiment(params):
         
         import time
         start_time = time.time()
-
+        print("Loading results for all experiments...")
         load_results.run(params)
 
         elapsed_time = time.time() - start_time

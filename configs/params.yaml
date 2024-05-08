@@ -81,8 +81,8 @@ visualize:
   all_versions: [0, 1]
   exclude_group: [epoch, step]
   #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  #sequences: [5,10,55]
-  sequences: [15]
+  sequences: [5,10,55]
+  #sequences: [15]
   domain : real
 
 kube :
