@@ -4,7 +4,7 @@
 # Create: Expriment Parameter
 # - 0 = train network, 1 = load results, 2 = do evaluation, 3 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
 
-experiment: 0 
+experiment: 1 
 
 # Create: System Parameters
 # - num_workers: number of cpus for data loader
@@ -134,6 +134,10 @@ kube :
       logs : /develop/results/checkpoints/current_logs
       # local path where template is located
       template : templates/train_job.txt
-       
+
+  load_results_job :
+    paths :
+      template : templates/load_results_job.txt
+          
 arch:
 seq_len:
