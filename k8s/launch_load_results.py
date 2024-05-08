@@ -33,10 +33,11 @@ def run(params):
 
     #for arch in arches:
 
-    params['network']['arch'] = arch
+    #params['network']['arch'] = arch
     
-    arch_str = 'rnn' if arch == 0 else 'lstm' 
-    job_name = "%s-%s" % (arch_str, str(sequence))
+    #arch_str = 'rnn' if arch == 0 else 'lstm' 
+    #job_name = "%s-%s" % (arch_str, str(sequence))
+    job_name = "load-results"
 
     template_info = {'job_name': job_name,
                      'num_cpus': str(params['kube']['train_job']['num_cpus']),
@@ -58,14 +59,14 @@ def run(params):
 
     save_file(path_job, filled_template)
 
-    #subprocess.run(['kubectl', 'apply', '-f', path_job])
+    subprocess.run(['kubectl', 'apply', '-f', path_job])
     print(f"launching job to load_results")
          
     
 if __name__=="__main__":
 
     kill = False
-    kill = True
+    #kill = True
 
     args = parse_args(sys.argv)
 

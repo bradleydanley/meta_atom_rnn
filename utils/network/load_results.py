@@ -136,6 +136,8 @@ def run(params):
         all_loss[val] = loss
         all_preds[val] = preds
         all_measures[val] = measures
+
+        print(f"val = {val}", flush=True)
         
     try:
         with open(os.path.join(path_results, 'analysis', 'all_preds.pkl'), 'wb') as f: 
