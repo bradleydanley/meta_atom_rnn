@@ -473,6 +473,7 @@ def plot_loss(params, all_data, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsi
                 ax.set_ylim(y_lim)
 
             fig.tight_layout()
+            print(f"before saving loss: path_file is {path_file}")
             fig.savefig(path_file)
 
             plt.close()
