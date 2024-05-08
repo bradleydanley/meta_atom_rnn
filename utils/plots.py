@@ -167,7 +167,6 @@ def scatter_plots(params, all_measures):
 
         plt.close()
 
-# KEEP #
 def plot_bars(params, all_measures, width=0.08, figsize=(14, 8), fontsize=fontsize):
 
     domain = params['visualize']['domain']
@@ -182,7 +181,10 @@ def plot_bars(params, all_measures, width=0.08, figsize=(14, 8), fontsize=fontsi
         for key, item in measures.items(): # key = train/valid, measures.items() = {key}_meas, {key}_vmin_vmax
 
             params['dataset']['seq_len'] = experiment
-            all_paths = get_save_folders(params,params['paths']['results'],create=False)
+        
+            #path_results = params['paths']['results']
+            path_results = params['kube']['train_job']['paths']['results']['model_results']
+            all_paths = get_save_folders(params,path_results,create=False)
 
             # Gather: Model Names
 
@@ -260,7 +262,10 @@ def create_flipbook_videos(params, image_type):
 
         print(f"\nWriting {image_type} video for experiment {sequence}...")
         params['dataset']['seq_len'] = sequence
-        all_paths = get_save_folders(params,params['paths']['results'],create=False)
+        
+        #path_results = params['paths']['results']
+        path_results = params['kube']['train_job']['paths']['results']['model_results']
+        all_paths = get_save_folders(params,path_results,create=False)
     
         for version in all_versions:
 
