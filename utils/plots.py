@@ -377,7 +377,11 @@ def plot_truth_and_pred_images(params, all_data, sample_idx=0, figsize=(10, 5), 
         print(f"\nPlotting images for experiment {val}...")
  
         params['dataset']['seq_len'] = val
-        all_paths = get_save_folders(params,params['paths']['results'],create=False)
+
+        #all_paths = get_save_folders(params,params['paths']['results'],create=False)
+        
+        path_results = params['kube']['train_job']['paths']['results']['model_results']
+        all_paths = get_save_folders(params,path_results,create=False)
 
         train_preds = all_preds['train']['preds']
         train_vmin_vmax = all_preds['train']['vmin_vmax']
