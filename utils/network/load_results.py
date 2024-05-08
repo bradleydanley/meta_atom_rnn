@@ -60,9 +60,8 @@ def save_params(params,all_paths):
 
         yaml.dump(params,file)
 
-def organize_results(params):
+def organize_results(params,path_results):
 
-    path_results = params["paths"]["results"]
     all_versions = params["visualize"]["all_versions"]
     exclude_group = params["visualize"]["exclude_group"]
 
@@ -132,7 +131,7 @@ def run(params):
 
         params['dataset']['seq_len'] = val
 
-        preds, measures, loss, all_paths = organize_results(params)
+        preds, measures, loss, all_paths = organize_results(params,path_results)
         all_loss[val] = loss
         all_preds[val] = preds
         all_measures[val] = measures
