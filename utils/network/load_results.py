@@ -3,7 +3,6 @@ import yaml
 import numpy as np
 import pickle
 import pandas as pd
-from IPython import embed
 
 from utils.data import load_data
 from utils.general import create_folder
@@ -13,14 +12,24 @@ from utils.network.support import get_vmin_vmax
 
 def get_save_folders(params,path_results,create):
 
+    if params['deployment_mode'] == 0:
+        path_analysis = params['mounted_paths']['results']['analysis']
+    elif params['deployment_mode'] == 1:
+        path_analysis = params['kube']['train_job']['paths']['results']['analysis']
+    else:
+        raise NotImplementedError
+
     seq_len = str(params['dataset']['seq_len']).zfill(2)
    
-    path_eval_root = os.path.join(path_results, "analysis", "exp_" + seq_len)
+    path_eval_root = os.path.join(path_analysis, "exp_" + seq_len)
     path_loss = os.path.join(path_eval_root, "loss")
     path_images = os.path.join(path_eval_root, "images")
     path_measures = os.path.join(path_eval_root, "measures")
     path_flipbooks = os.path.join(path_eval_root, "flipbooks")
-    path_results = os.path.join(path_results, "checkpoints", "k_" + str(params['dataset']['seq_len']).zfill(2))
+    if params['deployment_mode'] == 0:
+        path_results = os.path.join(path_results, "k_" + str(params['dataset']['seq_len']).zfill(2))
+    elif params['deployment_mode'] == 1:
+        path_results = os.path.join(path_results, "checkpoints", "k_" + str(params['dataset']['seq_len']).zfill(2))
 
     if create==True:
         create_folder(path_loss)
@@ -29,7 +38,8 @@ def get_save_folders(params,path_results,create):
         create_folder(path_flipbooks)
 
         datasets = ['train', 'valid']
-        versions = ['version_0', 'version_1']
+        versions = params['visualize']['all_versions'] 
+        #versions = ['version_0', 'version_1']
 
         for dataset in datasets:
             create_folder(os.path.join(path_measures,dataset))
@@ -60,7 +70,7 @@ def save_params(params,all_paths):
 
         yaml.dump(params,file)
 
-def organize_results(params,path_results):
+def organize_results(params,path_results,override_seq_len):
 
     all_versions = params["visualize"]["all_versions"]
     exclude_group = params["visualize"]["exclude_group"]
@@ -77,12 +87,12 @@ def organize_results(params,path_results):
     
     all_loss = []
     for version in all_versions:
-        tag = "version_%s" % version
+        #tag = "version_%s" % version
+        tag = version
         print(f"tag = {tag}")
         path_folder = os.path.join(all_paths["training_root"], "lightning_logs", tag)
         print(f"path_folder = {path_folder}")
         path_file = os.path.join(path_folder, "metrics.csv")
-        print(f"path_file = {path_file}") 
         if os.path.exists(path_file):
     
             print("Path Loss: %s\n" % path_file)
@@ -95,7 +105,7 @@ def organize_results(params,path_results):
 
     print("------ Gathering Model Predictions ------")
 
-    train, valid = load_data(params)
+    train, valid = load_data(params,override_seq_len)
 
     train_preds = get_all_model_predictions(params, all_paths, train)
     valid_preds = get_all_model_predictions(params, all_paths, valid)
@@ -120,9 +130,14 @@ def organize_results(params,path_results):
 
 def run(params):
 
-    #path_results = params['paths']['results']
-    path_results =  params['kube']['train_job']['paths']['results']['model_results']
-    create_folder(os.path.join(path_results, 'analysis'))
+    if params['deployment_mode'] == 0:
+        path_results = params['mounted_paths']['results']['checkpoints']
+        path_analysis = params['mounted_paths']['results']['analysis']
+        create_folder(path_analysis)
+    elif params['deployment_mode'] == 1:
+        path_results =  params['kube']['train_job']['paths']['results']['model_results']
+        path_analysis = params['kube']['train_job']['paths']['results']['analysis']
+        create_folder(path_analysis)
     
     #create_folder(os.path.join(params['paths']['results'], 'analysis'))
 
@@ -133,7 +148,7 @@ def run(params):
 
         params['dataset']['seq_len'] = val
 
-        preds, measures, loss, all_paths = organize_results(params,path_results)
+        preds, measures, loss, all_paths = organize_results(params,path_results,val)
         all_loss[val] = loss
         all_preds[val] = preds
         all_measures[val] = measures
@@ -141,21 +156,21 @@ def run(params):
         print(f"val = {val}", flush=True)
         
     try:
-        with open(os.path.join(path_results, 'analysis', 'all_preds.pkl'), 'wb') as f: 
+        with open(os.path.join(path_analysis, 'all_preds.pkl'), 'wb') as f: 
             pickle.dump(all_preds, f)
         print("Preds file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
-        with open(os.path.join(path_results, 'analysis', 'all_measures.pkl'), 'wb') as f: 
+        with open(os.path.join(path_analysis, 'all_measures.pkl'), 'wb') as f: 
             pickle.dump(all_measures, f)
         print("Measures file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
-        with open(os.path.join(path_results, 'analysis', 'all_loss.pkl'), 'wb') as f: 
+        with open(os.path.join(path_analysis, 'all_loss.pkl'), 'wb') as f: 
             pickle.dump(all_loss, f)
         print("Loss file dumped successfully.")
     except Exception as e:

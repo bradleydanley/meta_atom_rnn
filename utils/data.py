@@ -8,7 +8,6 @@ import os
 import torch
 import pickle
 import numpy as np
-from IPython import embed
 
 
 class Dataset:
@@ -59,11 +58,13 @@ def load_pickle_data(path, seq_len, dtype=np.float32, order=(-1, 0, 1, 2)):
 
 def load_data(params, override_seq_len = 0):
 
-    #path_train = params["paths"]["train"]
-    #path_valid = params["paths"]["valid"]
+    if params['deployment_mode'] == 0:
+        path_train = params["mounted_paths"]["data"]["train"]
+        path_valid = params["mounted_paths"]["data"]["valid"]
 
-    path_train = params['kube']['train_job']['paths']['data']['train']
-    path_valid = params['kube']['train_job']['paths']['data']['valid']
+    elif ['deployment_mode'] == 1:
+        path_train = params['kube']['train_job']['paths']['data']['train']
+        path_valid = params['kube']['train_job']['paths']['data']['valid']
 
     if override_seq_len == 0:
         seq_len = params["dataset"]["seq_len"]

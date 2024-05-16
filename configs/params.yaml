@@ -1,12 +1,45 @@
 # Purpose: Configuration File
 # Author: Andy
 
-# Create: Expriment Parameter
-# - 0 = train network, 1 = load results, 2 = do evaluation, 3 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
+# System parameter - We can either run locally (out of a docker image) or on kubernetes
+# If deployment_mode = 0, we are running locally.
+# If deployment_mode = 1, we are using kubernetes / the nautilus cluster
 
-experiment: 1 
+deployment_mode: 0
 
-# Create: System Parameters
+# If we're local but automating via bash, we need a flag for main.py
+# If bash = 1, we are automating locally. This only applies to training (experiment=1)
+
+bash : 0
+
+# Expriment Parameter
+# - 0 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
+# - 1 = train network
+# - 2 = load results
+# - 3 = run evaluation
+
+experiment: 3  # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
+
+# Path Parameters - used for running 'locally' - but within a docker container, not kubernetes
+# - paths are mounted as /develop/data, /develop/code, /develop/results
+# - data: path to dataset folder
+# - results: path to results folder
+
+mounted_paths:
+  data:
+    volumes: /develop/data/meep-dataset-v2/volumes
+    preprocessed_data: /develop/data/meep-dataset-v2/preprocessed_data
+    train: /develop/data/meep-dataset-v2/preprocessed_data/train
+    valid: /develop/data/meep-dataset-v2/preprocessed_data/valid
+  results:
+    checkpoints: /develop/results/meta_atom_rnn/checkpoints
+    analysis: /develop/results/meta_atom_rnn/analysis
+  code:
+    params: /develop/code/meta_atom_rnn/configs/params.yaml
+    library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
+ 
+
+# System Parameters for NN training
 # - num_workers: number of cpus for data loader
 # - strategy: lightning trainer configuration
 # - num_devices: number of acceleration devices
@@ -19,15 +52,15 @@ system:
     num_devices : 1
     accelerator : cuda 
 
-# Create: Dataset Parameters
+# Dataset Parameters
 # - seq_len: number of sequential slices per sample
 
 dataset:
-  seq_len:  
+  seq_len: 5 
   vmin_real:
   vmax_imag:
 
-# Create: General Network Parameters
+# General Network Parameters
 # - arch: network architecture (0 = rnn, 1 = lstm, 2 = convlstm)
 # - batch_size: number of samples for one network observation
 # - num_epochs: number of times algorithm observes entire train dataset
@@ -36,10 +69,10 @@ dataset:
 network:
   arch: 
   batch_size: 4
-  num_epochs: 200
+  num_epochs: 10
   learning_rate: 0.01
 
-# Create: RNN / LSTM Parameters
+# RNN / LSTM Parameters
 # - num_layers: number of rnn / lstm layers (i.e., stacked networks)
 # - i_dims: number of input dimensions for rnn / lstm
 # - h_dims: number of hidden dimensions for rnn / lstm
@@ -49,7 +82,7 @@ rnn_lstm:
   i_dims: 55112
   h_dims: 256
 
-# Create: ConvLSTM Parameters
+# ConvLSTM Parameters
 # - in_channels: in channels of convolution for convlstm
 # - kernel_size: kernel size of convolution for convlstm
 # - padding: padding size of convolution for convlstm
@@ -62,28 +95,26 @@ convlstm:
   padding: 1
   spatial: 166
 
-# Create: Path Parameters
-# - data: path to dataset folder
-# - results: path to results folder
 
-local_paths:
-  train: /develop/data/meep-dataset-v2/reduced_data/train
-  valid: /develop/data/meep-dataset-v2/reduced_data/valid
-  results: /develop/results/meta_atom_rnn
-  analysis: /develop/results/meta_atom_rnn/analysis
-  params: /develop/code/meta_atom_rnn/configs/params.yaml
-  #timing: /develop/results/meta_atom_rnn/timing
-  timing: /develop/results/timing
-
-# Create: Visualize Parameters
+# Visualization Parameters for evaluation/analysis
+#  We also end up recycling visualize.sequences to automate experiments
 
 visualize:
-  all_versions: [0, 1]
+  all_versions: ['rnn', 'lstm']
+  #all_versions: [0, 1]
   exclude_group: [epoch, step]
   #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  #sequences: [5,10,55]
-  sequences: [30,35,40,45,50,60]
+  sequences: [5,10]
   domain : real
+
+# Copies of parameters for automation - These are used as arguments to be passed at runtime
+# and parsed. They are command-line arguments. Never set them here - they get changed as the
+# experiment is run. Once these are set, network.arch and dataset.seq_len are updated.
+
+arch:
+seq_len:
+
+# Kubernetes (k8s) parameters. 
 
 kube :
   namespace : gpn-mizzou-muem
@@ -102,7 +133,6 @@ kube :
     paths :
 
       # local / repo path where meta-atom radii are stored
-      library : /develop/code/meta_atom_rnn/utils/neighbors_library_allrandom.pkl  
 
       # interactive pod directories
       data :
@@ -145,5 +175,4 @@ kube :
   evaluation_job :
     paths:
       template : templates/evaluation_job.txt          
-arch:
-seq_len:
+

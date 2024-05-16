@@ -50,20 +50,19 @@ def get_all_measures(all_versions, all_results):
 
         for version in all_versions:
 
-            #v_results = {}
+            ## this is redundant 
+            #if version == 'rnn':
+            #    name = "rnn"
+            #elif version == 'lstm':
+            #    name = "lstm"
+            #elif version == 'convlstm':
+            #    name = "convlstm"
+            #else:
+            #    raise NotImplementedError
 
-            if version == 0:
-                name = "rnn"
-            elif version == 1:
-                name = "lstm"
-            elif version == 2:
-                name = "convlstm"
-            else:
-                raise NotImplementedError
+            t_results[version] = {} 
 
-            t_results[name] = {} 
-
-            results = all_results["version_%s" % version]
+            results = all_results[version]
             all_truths, all_preds = results["truths"], results["preds"]
 
             if tag == "real":
@@ -76,9 +75,9 @@ def get_all_measures(all_versions, all_results):
             else:
 
                 raise NotImplementedError
-            t_results[name]["mse"] = compare_many(preds, truths, calc_mse)
-            t_results[name]["mae"] = compare_many(preds, truths, calc_mae)
-            t_results[name]["emd"] = compare_many(preds, truths, calc_emd)
+            t_results[version]["mse"] = compare_many(preds, truths, calc_mse)
+            t_results[version]["mae"] = compare_many(preds, truths, calc_mae)
+            t_results[version]["emd"] = compare_many(preds, truths, calc_emd)
 
             #t_results.append(v_results)
             pbar.update(1)

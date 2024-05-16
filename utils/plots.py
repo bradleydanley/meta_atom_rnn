@@ -26,11 +26,11 @@ def get_colors(num_colors):
 
     return colors
 
-def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize, ylim=None):
+def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize, path_results, ylim=None):
 
     colors = get_colors(3)
 
-    all_paths = get_save_folders(params,params['paths']['results'],create=False)
+    all_paths = get_save_folders(params,path_results,create=False)
    
     fig, ax = plt.subplots(figsize=figsize) 
     for i, measure in enumerate(meas_list.keys()):
@@ -57,7 +57,7 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
     fig.savefig(path_save)
                 
 
-def plot_truth_and_pred_measures(params, all_preds, sample_idx = 0,
+def plot_truth_and_pred_measures(params, all_preds, path_results, sample_idx = 0,
                                  figsize=(16,4), fontsize=fontsize, ylim=[0,15]):
 
     sequences = params['visualize']['sequences']
@@ -69,7 +69,7 @@ def plot_truth_and_pred_measures(params, all_preds, sample_idx = 0,
             continue
         
         params['dataset']['seq_len'] = experiment
-        all_paths = get_save_folders(params,params['paths']['results'],create=False)
+        all_paths = get_save_folders(params,path_results,create=False)
         
         for dataset in measures.keys():
             
@@ -89,7 +89,7 @@ def plot_truth_and_pred_measures(params, all_preds, sample_idx = 0,
                     meas_list['mae'].append(calc_mae(preds[j], truths[j]))
                     meas_list['emd'].append(calc_emd(preds[j], truths[j]))  
                     print(f"plotting measures for {experiment},{dataset},{version},frame{j}")
-                    measures_plotter(params,meas_list,experiment,dataset,version,j,figsize)
+                    measures_plotter(params,meas_list,experiment,dataset,version,j,figsize,path_results)
 
                     plt.close()
 
@@ -101,11 +101,11 @@ def get_regression(x, y):
 
     return regression_line
 
-def scatter_plots(params, all_measures):
+def scatter_plots(params, all_measures, path_results, path_analysis):
    
     colors = get_colors(3)
 
-    all_paths = get_save_folders(params,params['paths']['results'],create=False)
+    all_paths = get_save_folders(params,path_results,create=False)
 
     all_versions = params['visualize']['all_versions']
     domain = params['visualize']['domain']
@@ -126,7 +126,7 @@ def scatter_plots(params, all_measures):
 
         fig, ax = plt.subplots(1, 2, figsize=(10,3))
             
-        model = "rnn" if version == 0 else "lstm"
+        model = version
 
         ## -- Plot train data -- ##
         ax[0].scatter(x_labels, [meas[model]['mse']*100 for meas in y_train], label='MSE', color=colors[0])
@@ -162,12 +162,12 @@ def scatter_plots(params, all_measures):
         #    ax[0].set_ylim([0,1])
 
         fig.tight_layout()
-        path_save = os.path.join(params['paths']['results'],"analysis")
+        path_save = os.path.join(path_analysis)
         fig.savefig(os.path.join(path_save, f"scatter_{model}.pdf"))
 
         plt.close()
 
-def plot_bars(params, all_measures, width=0.08, figsize=(14, 8), fontsize=fontsize):
+def plot_bars(params, all_measures, path_results, width=0.08, figsize=(14, 8), fontsize=fontsize):
 
     domain = params['visualize']['domain']
     sequences = params['visualize']['sequences']
@@ -182,8 +182,6 @@ def plot_bars(params, all_measures, width=0.08, figsize=(14, 8), fontsize=fontsi
 
             params['dataset']['seq_len'] = experiment
         
-            #path_results = params['paths']['results']
-            path_results = params['kube']['train_job']['paths']['results']['model_results']
             all_paths = get_save_folders(params,path_results,create=False)
 
             # Gather: Model Names
@@ -251,7 +249,7 @@ def plot_bars(params, all_measures, width=0.08, figsize=(14, 8), fontsize=fontsi
             fig.savefig(path_save)
             plt.close()
 
-def create_flipbook_videos(params, image_type):
+def create_flipbook_videos(params, image_type, path_results):
 
     all_versions = params['visualize']['all_versions']
     domain = params['visualize']['domain']
@@ -263,17 +261,15 @@ def create_flipbook_videos(params, image_type):
         print(f"\nWriting {image_type} video for experiment {sequence}...")
         params['dataset']['seq_len'] = sequence
         
-        #path_results = params['paths']['results']
-        path_results = params['kube']['train_job']['paths']['results']['model_results']
         all_paths = get_save_folders(params,path_results,create=False)
     
         for version in all_versions:
 
-            v_tag = "version_%s" % version
+            v_tag = version
 
             for dataset in datasets: 
                 
-                model = "RNN" if version == 0 else "LSTM"
+                model = version 
                 if image_type == 'images':
                     path_folder = os.path.join(all_paths[image_type], v_tag, dataset)
                     path_save = os.path.join(all_paths['flipbooks'], f'fields_{model}_{dataset}_{sequence}.avi') 
@@ -363,13 +359,13 @@ def get_image_data(params, preds, domain, dataset, mins, maxes, sample_idx):
     return truth, pred, bounds
 
 # KEEP #    
-def plot_truth_and_pred_images(params, all_data, sample_idx=0, figsize=(10, 5), fontsize=14):
+def plot_truth_and_pred_images(params, all_data, path_results, sample_idx=0, figsize=(10, 5), fontsize=14):
     
     all_versions = params['visualize']['all_versions']
     domain = params['visualize']['domain']
     sequences = params['visualize']['sequences']
     
-    for val, all_preds in all_data.items(): # val=exp number, all_preds has  
+    for val, all_preds in all_data.items(): # val=exp number 
 
         #if val > sequences[-1]:
         if val not in sequences:
@@ -378,9 +374,6 @@ def plot_truth_and_pred_images(params, all_data, sample_idx=0, figsize=(10, 5), 
  
         params['dataset']['seq_len'] = val
 
-        #all_paths = get_save_folders(params,params['paths']['results'],create=False)
-        
-        path_results = params['kube']['train_job']['paths']['results']['model_results']
         all_paths = get_save_folders(params,path_results,create=False)
 
         train_preds = all_preds['train']['preds']
@@ -390,8 +383,8 @@ def plot_truth_and_pred_images(params, all_data, sample_idx=0, figsize=(10, 5), 
     
         for version in all_versions:
 
-            v_tag = "version_%s" % version
-
+            v_tag = version
+    
             train_mins = train_vmin_vmax[v_tag][domain]['vmins']
             train_maxes = train_vmin_vmax[v_tag][domain]['vmaxes']
             train_truth, train_pred, train_bounds = get_image_data(params, train_preds[v_tag], domain, "train", train_mins, train_maxes, sample_idx)
@@ -413,7 +406,7 @@ def plot_truth_and_pred_images(params, all_data, sample_idx=0, figsize=(10, 5), 
             image_plotter(valid_images, "train", titles, version, valid_bounds, valid_path, figsize, fontsize)
 
 
-def plot_loss(params, all_data, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsize):
+def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsize):
 
     colors = get_colors(2)
     exclude_group = params['visualize']['exclude_group']
@@ -425,9 +418,7 @@ def plot_loss(params, all_data, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsi
             continue
 
         params['dataset']['seq_len'] = val
-        #all_paths = get_save_folders(params,params['paths']['results'],create=False)
         
-        path_results = params['kube']['train_job']['paths']['results']['model_results']
         all_paths = get_save_folders(params,path_results,create=False)
 
         for i, name in enumerate(all_loss[0].columns):
@@ -482,7 +473,7 @@ def plot_loss(params, all_data, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsi
                 ax.set_ylim(y_lim)
 
             fig.tight_layout()
-            print(f"before saving loss: path_file is {path_file}")
+            #print(f"before saving loss: path_file is {path_file}")
             fig.savefig(path_file)
 
             plt.close()

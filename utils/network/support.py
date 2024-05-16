@@ -13,12 +13,12 @@ import csv
 from tqdm import tqdm
 
 from utils.network.models import Network
-from IPython import embed
 
 
 def load_model(path, device, params):
 
     model = Network.load_from_checkpoint(path, params=params).to(device)
+    #model = Network.load_from_checkpoint(path, strict=False, params=params).to(device)
     model.eval()
 
     return model
@@ -57,18 +57,25 @@ def get_preds(data, model):
 
 def get_all_model_predictions(params, all_paths, data):
 
-    #path_results = params["paths"]["results"]
     path_results = all_paths['training_root'] 
     device = params["system"]["gpus"]["accelerator"]
     all_versions = params["visualize"]["all_versions"]
+    
 
     all_results = {}
     for version in all_versions:
 
         path_folder = os.path.join(path_results, "lightning_logs",
-                                   "version_%s" % version, "checkpoints")
+                                   version, "checkpoints")
 
-        params["network"]["arch"] = version
+        if version == "rnn":
+            choice = 0
+        elif version == "lstm":
+            choice = 1
+        else:
+            raise NotImplementedError
+
+        params["network"]["arch"] = choice 
 
         if os.path.exists(path_folder):
 
@@ -78,20 +85,18 @@ def get_all_model_predictions(params, all_paths, data):
 
             model = load_model(path_model, device, params)
             results = get_preds(data, model)
-            all_results["version_%s" % version] = results
+            all_results[version] = results
 
     return all_results
 
 
 def get_vmin_vmax(preds):
 
-    data = {'version_0': {'real': {'vmins': [], 'vmaxes': []}, 'imag': {'vmins': [], 'vmaxes': []}},
-           'version_1': {'real': {'vmins': [], 'vmaxes': []}, 'imag': {'vmins': [], 'vmaxes': []}}}
+    data = {'rnn': {'real': {'vmins': [], 'vmaxes': []}, 'imag': {'vmins': [], 'vmaxes': []}},
+           'lstm': {'real': {'vmins': [], 'vmaxes': []}, 'imag': {'vmins': [], 'vmaxes': []}}}
 
-    print(type(preds))
-    print(preds.keys())
-    rnn_data = preds['version_0']
-    lstm_data = preds['version_1']
+    rnn_data = preds['rnn']
+    lstm_data = preds['lstm']
 
     rnn_truths = rnn_data['truths']
     rnn_preds = rnn_data['preds']
@@ -104,24 +109,24 @@ def get_vmin_vmax(preds):
         real_pred, imag_pred = pred_sample[:,0,:,:], pred_sample[:,1,:,:]
 
         # get min/max for real channel - one min and one max value across truths and preds
-        data['version_0']['real']['vmins'].append( min(np.min(real_pred), np.min(real_truth)) )
-        data['version_0']['real']['vmaxes'].append( max(np.max(real_pred), np.max(real_truth)) )
+        data['rnn']['real']['vmins'].append( min(np.min(real_pred), np.min(real_truth)) )
+        data['rnn']['real']['vmaxes'].append( max(np.max(real_pred), np.max(real_truth)) )
 
         # get min/max for imaginary channel
-        data['version_0']['imag']['vmins'].append( min(np.min(imag_pred), np.min(imag_truth)) )
-        data['version_0']['imag']['vmaxes'].append( max(np.max(imag_pred), np.max(imag_truth)) )
+        data['rnn']['imag']['vmins'].append( min(np.min(imag_pred), np.min(imag_truth)) )
+        data['rnn']['imag']['vmaxes'].append( max(np.max(imag_pred), np.max(imag_truth)) )
 
     for truth_sample, pred_sample in zip(lstm_truths, lstm_preds):
         real_truth, imag_truth = truth_sample[:,0,:,:], truth_sample[:,1,:,:]
         real_pred, imag_pred = pred_sample[:,0,:,:], pred_sample[:,1,:,:]
 
         # get min/max for real channel - one min and one max value across truths and preds
-        data['version_1']['real']['vmins'].append( min(np.min(real_pred), np.min(real_truth)) )
-        data['version_1']['real']['vmaxes'].append( max(np.max(real_pred), np.max(real_truth)) )
+        data['lstm']['real']['vmins'].append( min(np.min(real_pred), np.min(real_truth)) )
+        data['lstm']['real']['vmaxes'].append( max(np.max(real_pred), np.max(real_truth)) )
 
         # get min/max for imaginary channel
-        data['version_1']['imag']['vmins'].append( min(np.min(imag_pred), np.min(imag_truth)) )
-        data['version_1']['imag']['vmaxes'].append( max(np.max(imag_pred), np.max(imag_truth)) )
+        data['lstm']['imag']['vmins'].append( min(np.min(imag_pred), np.min(imag_truth)) )
+        data['lstm']['imag']['vmaxes'].append( max(np.max(imag_pred), np.max(imag_truth)) )
 
     return data
 
@@ -132,18 +137,17 @@ def move_files(f, folder, dir_path):
     shutil.copy(src_file, dst_file)
     
 
-def organize_analysis(params, dir_name, tag, file_type):
+def organize_analysis(params, path_analysis, dir_name, tag, file_type):
 
     sequences = params['visualize']['sequences']
-    root = params['paths']['analysis']
 
-    dir_path = os.path.join(root, dir_name)
+    dir_path = os.path.join(path_analysis, dir_name)
     if not os.path.exists(dir_path): 
         os.makedirs(dir_path) 
 
     for sequence in sequences:
 
-        folder = os.path.join(root, f'exp_{str(sequence).zfill(2)}/{tag}')
+        folder = os.path.join(path_analysis, f'exp_{str(sequence).zfill(2)}/{tag}')
         
         for f in os.listdir(folder):
 

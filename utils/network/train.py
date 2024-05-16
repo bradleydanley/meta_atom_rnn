@@ -1,5 +1,5 @@
 """
-Purpose: Train Deep Learning System
+meta_atom_rnn/utils/network/train.py
 Author: Andy
 """
 
@@ -11,17 +11,18 @@ import yaml
 
 from lightning.pytorch.loggers import CSVLogger
 from lightning.pytorch.callbacks import LearningRateMonitor
+from utils.network.models import Network
 
 from utils.data import load_data
-#from utils.network.models import Network, CustomCheckpointCallback 
-from utils.network.models import Network, ModelCheckpoint 
 
 from utils.general import create_folder
 
 def run(params):
 
-    #experiment_path = os.path.join(params['paths']['results'], "k_" + str(params['dataset']['seq_len']))
-    experiment_path = os.path.join(params['kube']['train_job']['paths']['results']['model_checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
+    if params['deployment_mode'] == 0:
+        experiment_path = os.path.join(params['mounted_paths']['results']['checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
+    elif params['deployment_mode'] == 1:
+        experiment_path = os.path.join(params['kube']['train_job']['paths']['results']['model_checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
 
     create_folder(experiment_path) 
     path_save = os.path.join(experiment_path)
@@ -35,37 +36,32 @@ def run(params):
     start_time = time.time()
     train, valid = load_data(params)
     load_time = time.time() - start_time
+
     # Create: Model
     
     model = Network(params)
 
     # Create: Logger
 
+    arch_val = params['network']['arch']
+    arch_str = "rnn/" if arch_val == 0 else 'lstm/'
+
     print(f"path_save = {path_save}")
-    exp_logger = CSVLogger(save_dir=path_save)
+    exp_logger = CSVLogger(save_dir=path_save,version=arch_str)
 
     # Create: Trainer
 
     lr_monitor = LearningRateMonitor(logging_interval="epoch")
 
-    arch = f"./{params['network']['arch']}"
-    folder_name = "rnn/" if arch == 0 else 'lstm/'
-    #checkpoint_callback = CustomCheckpointCallback(folder_name=folder_name, arch=folder_name)
-    checkpoint_callback = ModelCheckpoint(dirpath=folder_name)
-
     trainer = L.Trainer(callbacks=[lr_monitor],
                         accelerator=accelerator, strategy=strategy,
                         devices=num_devices, max_epochs=num_epochs,
-                        log_every_n_steps=1, logger=exp_logger,
-                        default_root_dir=folder_name)
+                        log_every_n_steps=1, logger=exp_logger,)
+                        #default_root_dir=folder_name)
 
     # Train: Model
 
-    start_time = time.time()
     trainer.fit(model=model, train_dataloaders=train, val_dataloaders=valid)
-    train_time = start_time - time.time() 
 
-    #folder_name
     #yaml.dump(params, open(os.path.join(params_path), 'w'))
 
-    return load_time, train_time
