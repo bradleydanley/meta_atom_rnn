@@ -1,13 +1,12 @@
 
-
-#  Creating kubernetes jobs for LSTM and RNN training
+#  Creating kubernetes jobs for loading results (params['experiment'] == 1) 
+#  and running eval (params['experiment'] == 2)
 
 import os
 import sys
 import yaml
 import time
 import subprocess
-from IPython import embed
 
 from dateutil.tz import tzutc
 from kubernetes import client, config
@@ -20,25 +19,22 @@ from utils.general import create_folder
 
 def run(params):
 
-    template = load_file(params['kube']['evaluation_job']['paths']['template'])
-    tag = params['kube']['evaluation_job']['paths']['template'].split("/")[-1]
-    folder = params['kube']['evaluation_job']['paths']['template'].replace("/%s" % tag, "")
+    experiment = params['experiment'] 
+    
+    if experiment == 1:
+        job = 'load_results_job'
+    elif experiment == 2:
+        job = 'evaluation_job' 
+
+    job_name = job.replace('_','-')    
+
+    template = load_file(params['kube'][job]['paths']['template'])
+    tag = params['kube'][job]['paths']['template'].split("/")[-1]
+    folder = params['kube'][job]['paths']['template'].replace("/%s" % tag, "")
     environment = Environment(loader = FileSystemLoader(folder))
     template = environment.get_template(tag)
 
     create_folder(params['kube']['job_files'])
-
-    #for sequence in sequences:
-
-    #params['dataset']['seq_len'] = sequence 
-
-    #for arch in arches:
-
-    #params['network']['arch'] = arch
-    
-    #arch_str = 'rnn' if arch == 0 else 'lstm' 
-    #job_name = "%s-%s" % (arch_str, str(sequence))
-    job_name = "evaluation"
 
     template_info = {'job_name': job_name,
                      'num_cpus': str(params['kube']['train_job']['num_cpus']),
@@ -60,9 +56,9 @@ def run(params):
 
     save_file(path_job, filled_template)
 
-    from IPython import embed; embed(); exit()
-    #subprocess.run(['kubectl', 'apply', '-f', path_job])
-    print(f"launching job to load_results")
+
+    print(f"launching {job}")
+    subprocess.run(['kubectl', 'apply', '-f', path_job])
          
     
 if __name__=="__main__":

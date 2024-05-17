@@ -1,4 +1,20 @@
+# kubectl apply -f results_mon.yaml
+# kubectl exec -it monitor-training-results -- /bin/bash
 
+# Training results are mounted to /develop/results/checkpoints
+# - Folders have the naming convention k_{xx}, where xx is an integer value
+#   representing the sequence length.
+#   - Pytorch lightning generates a folder called `lightning logs`
+#       - `rnn` and `lstm` folders contain their respective checkpoints.
+
+# Analysis results are mounted to /develop/results/analysis
+# - Folders have the naming convention exp_{xx} where xx is an integer value
+#   representing sequence length. 
+# - This folder also contains all_measures.pkl, all_loss.pkl, and all_preds.pkl, 
+#   which are aggregations of results over all experiments.
+# - The folders all_bars, all_loss, all_flipbooks are for convenience - they get
+#   generated in the evaulation stage and just provide easy access to plots, figures,
+#   etc. 
 
 apiVersion: v1
 kind: Pod

@@ -1,12 +1,16 @@
-# This yaml file needs some work. can't be bash-enabled/interactive. Hint: https://github.com/MU-HPDI/nautilus/blob/main/kube/cloudstorage/rclone_pod.yml
+# I never actually used this pod - It's still in development. Following the example
+# at https://github.com/MU-HPDI/nautilus/blob/main/kube/cloudstorage/rclone_pod.yml
+# you should be able to add some args that will transfer the analysis results to
+# an S3 bucket.
 
-# kubectl apply -f monitor_pod.yaml
-# kubectl exec -it andy-monitor -- /bin/bash
+# Also, I don't think you need to make it interactive, but just in case you want to:
+# kubectl apply -f rclone_pod.yaml
+# kubectl exec -it rclone-monitor -- /bin/bash
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: raw-data-monitor
+  name: rclone-monitor
 spec:
   containers:
     - name: raw-data-monitor
@@ -23,9 +27,9 @@ spec:
         - name: RCLONE_CONFIG_NAUTILUS_PROVIDER
           value: Other
         - name: RCLONE_CONFIG_NAUTILUS_ACCESS_KEY_ID
-          value: JPKIHDAZY41Q5IPG1SPM 
+          value: {your_id_here} 
         - name: RCLONE_CONFIG_NAUTILUS_SECRET_ACCESS_KEY
-          value: 2AZNOB1ivWEGKV1UYK6HDb5KuEJJ0s5dxDBxQPEE
+          value: {your_secret_key_here} 
       resources:
         limits:
           memory: 4Gi
@@ -34,10 +38,9 @@ spec:
           memory: 4Gi
           cpu: 2
       volumeMounts:
-        - name: meep-dataset-v2
-          mountPath: /develop/data
+        - name: training-results
+          mountPath: /develop/results/analysis
   volumes:
-    - name: meep-dataset-v2
+    - name: training-results
       persistentVolumeClaim:
-        claimName: meep-dataset-v2
-
+        claimName: training-results

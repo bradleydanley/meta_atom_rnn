@@ -1,6 +1,14 @@
 # this is being used as the raw dataset monitor
-# kubectl apply -f monitor.yaml
-# kubectl exec -it andy-monitor -- /bin/bash
+# kubectl apply -f raw_dataset_monitor.yaml
+# kubectl exec -it monitor-raw-data -- /bin/bash
+
+# The folders mounted to /develop/data/ are numbered 0000..1500.
+# The contents of each folder are - dft_{xxxxx}.h5
+#                                 - metadata_{xxxxx}.pkl
+# which is 2.4 GB
+# These are the outputs of https://github.com/Kovaleski-Research-Lab/general_3x3/tree/andy_branch
+
+# This data is mounted as read-only.
 
 apiVersion: v1
 kind: Pod
@@ -9,7 +17,7 @@ metadata:
 spec:
   containers:
     - name: monitor-raw-data
-      image: docker.io/kovaleskilab/deep-optics:v1 
+      image: docker.io/kovaleskilab/meep:v3_lightning 
       stdin: True
       tty: True
       resources:
@@ -22,8 +30,10 @@ spec:
       volumeMounts:
         - name: meep-dataset-v2
           mountPath: /develop/data
+          readOnly: True
   volumes:
     - name: meep-dataset-v2
       persistentVolumeClaim:
         claimName: meep-dataset-v2
+        readOnly: True
 

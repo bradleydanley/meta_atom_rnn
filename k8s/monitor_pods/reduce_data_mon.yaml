@@ -1,8 +1,8 @@
 # use this with general_3x3/kubernetes/preprocess_data.py
 
 
-# kubectl apply -f preprocess_mon.yaml
-# kubectl exec -it preprocess-monitor -- /bin/bash
+# kubectl apply -f reduce_data_mon.yaml
+# kubectl exec -it monitor-dft-vols -- /bin/bash
 
 apiVersion: v1
 kind: Pod
@@ -24,9 +24,11 @@ spec:
       volumeMounts:
         - name: dft-volumes 
           mountPath: /develop/results
+          readOnly: True
   volumes:
     - name: dft-volumes 
       persistentVolumeClaim:
         claimName: dft-volumes 
+        readOnly: True
 
   restartPolicy: Never

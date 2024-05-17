@@ -1,3 +1,14 @@
+# this is being used as the preprocessed data monitor
+# kubectl apply -f pp_dataset_mon.yaml
+# kubectl exec -it monitor-pp-data -- /bin/bash
+
+# The files mounted to develop/data/preprocessed_data are numbered 0000..1500.pkl. 
+# They contain data that has been reduced from the raw data in the pvc meep-dataset-v2. 
+# Each file is about 27 MB and should be separated into train/valid folders.
+
+# The script used to do the preprocessing is located at 
+# https://github.com/Kovaleski-Research-Lab/general_3x3/tree/andy_branch/preprocess_data.py.
+
 
 apiVersion: v1
 kind: Pod
@@ -19,9 +30,11 @@ spec:
       volumeMounts:
         - name: preprocessed-data 
           mountPath: /develop/data/preprocessed_data
+          readOnly: False 
   volumes:
     - name: preprocessed-data 
       persistentVolumeClaim:
         claimName: preprocessed-data 
+        readOnly: False 
 
   restartPolicy: Never
