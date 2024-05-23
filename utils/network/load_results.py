@@ -11,7 +11,7 @@ from utils.network.support import get_all_model_predictions
 from utils.network.support import get_vmin_vmax
 
 def get_save_folders(params,path_results,create):
-
+  
     if params['deployment_mode'] == 0:
         path_analysis = params['mounted_paths']['results']['analysis']
     elif params['deployment_mode'] == 1:
@@ -20,7 +20,7 @@ def get_save_folders(params,path_results,create):
         raise NotImplementedError
 
     seq_len = str(params['dataset']['seq_len']).zfill(2)
-   
+    #Defines a new root for each experiment  
     path_eval_root = os.path.join(path_analysis, "exp_" + seq_len)
     path_loss = os.path.join(path_eval_root, "loss")
     path_images = os.path.join(path_eval_root, "images")

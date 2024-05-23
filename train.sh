@@ -1,6 +1,6 @@
 #!/bin/bash
 
-seq_lens=(5 10)
+seq_lens=(5 10 15)
 archs=(0 1)
 
 for seq_len in "${seq_lens[@]}"; do

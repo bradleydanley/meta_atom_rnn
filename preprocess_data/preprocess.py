@@ -103,7 +103,6 @@ def separate_datasets(folder_path):
         command = ['mv', sample, destination]
         subprocess.run(command)
             
-    from IPython import embed; embed(); exit()
 
     
 

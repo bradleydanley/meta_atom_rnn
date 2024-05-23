@@ -23,6 +23,7 @@ class Network(L.LightningModule):
         self.alpha = params["network"]["learning_rate"]
         self.num_epochs = params["network"]["num_epochs"]
         self.batch_size = params["network"]["batch_size"]
+        self.scheduler = params["network"]["scheduler"]
         self.create_architecture(params)
 
     def create_architecture(self, params):
@@ -92,8 +93,11 @@ class Network(L.LightningModule):
         lr_scheduler = CosineAnnealingLR(optimizer, T_max=self.num_epochs)
         lr_scheduler_config = {"scheduler": lr_scheduler,
                                "interval": "epoch", "frequency": 1}
-
-        return {"optimizer": optimizer, "lr_scheduler": lr_scheduler_config}
+        
+        if self.scheduler == 0:
+             return {"optimizer": optimizer, "lr_scheduler": lr_scheduler_config}
+        else:
+            return {"optimizer": optimizer}
 
     def objective(self, preds, labels):
 

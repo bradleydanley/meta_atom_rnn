@@ -1,4 +1,4 @@
-# Purpose: Configuration File
+## Purpose: Configuration File
 # Author: Andy
 
 # System parameter - We can either run locally (out of a docker image) or on kubernetes
@@ -10,7 +10,7 @@ deployment_mode: 0
 # If we're local but automating via bash, we need a flag for main.py
 # If bash = 1, we are automating locally. This only applies to training (experiment=1)
 
-bash : 0
+bash : 1
 
 # Expriment Parameter
 # - 0 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
@@ -18,7 +18,7 @@ bash : 0
 # - 2 = load results
 # - 3 = run evaluation
 
-experiment: 3  # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
+experiment: 3 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
 
 # Path Parameters - used for running 'locally' - but within a docker container, not kubernetes
 # - paths are mounted as /develop/data, /develop/code, /develop/results
@@ -56,7 +56,7 @@ system:
 # - seq_len: number of sequential slices per sample
 
 dataset:
-  seq_len: 5 
+  seq_len:  
   vmin_real:
   vmax_imag:
 
@@ -65,12 +65,13 @@ dataset:
 # - batch_size: number of samples for one network observation
 # - num_epochs: number of times algorithm observes entire train dataset
 # - learning_rate: step size of gradient descent optimization
-
+# - scheduler: defines scheduler use (0=scheduler on, 1=scheduler off)
 network:
-  arch: 
+  arch:  
   batch_size: 4
-  num_epochs: 10
+  num_epochs: 50
   learning_rate: 0.01
+  scheduler: 1
 
 # RNN / LSTM Parameters
 # - num_layers: number of rnn / lstm layers (i.e., stacked networks)
@@ -104,15 +105,15 @@ visualize:
   #all_versions: [0, 1]
   exclude_group: [epoch, step]
   #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  sequences: [5,10]
+  sequences: [5,10,15]
   domain : real
 
 # Copies of parameters for automation - These are used as arguments to be passed at runtime
 # and parsed. They are command-line arguments. Never set them here - they get changed as the
 # experiment is run. Once these are set, network.arch and dataset.seq_len are updated.
 
-arch:
-seq_len:
+arch: 
+seq_len: 
 
 # Kubernetes (k8s) parameters. 
 

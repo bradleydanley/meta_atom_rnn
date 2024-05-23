@@ -20,12 +20,11 @@ from utils.general import create_folder
 def run(params):
 
     if params['deployment_mode'] == 0:
-        experiment_path = os.path.join(params['mounted_paths']['results']['checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
+        path_save = os.path.join(params['mounted_paths']['results']['checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
     elif params['deployment_mode'] == 1:
-        experiment_path = os.path.join(params['kube']['train_job']['paths']['results']['model_checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
+        path_save = os.path.join(params['kube']['train_job']['paths']['results']['model_checkpoints'], "k_" + str(params['dataset']['seq_len']).zfill(2))
 
-    create_folder(experiment_path) 
-    path_save = os.path.join(experiment_path)
+    create_folder(path_save)
     num_epochs = params["network"]["num_epochs"]
     strategy = params["system"]["gpus"]["strategy"]
     num_devices = params["system"]["gpus"]["num_devices"]
