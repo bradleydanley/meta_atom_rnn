@@ -30,11 +30,11 @@ spec:
       volumeMounts:
         - name: preprocessed-data 
           mountPath: /develop/data/preprocessed_data
-          readOnly: False 
+          readOnly: True 
   volumes:
     - name: preprocessed-data 
       persistentVolumeClaim:
         claimName: preprocessed-data 
-        readOnly: False 
+        readOnly: True 
 
   restartPolicy: Never

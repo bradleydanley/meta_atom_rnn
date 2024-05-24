@@ -5,12 +5,12 @@
 # If deployment_mode = 0, we are running locally.
 # If deployment_mode = 1, we are using kubernetes / the nautilus cluster
 
-deployment_mode: 0
+deployment_mode: 1
 
 # If we're local but automating via bash, we need a flag for main.py
 # If bash = 1, we are automating locally. This only applies to training (experiment=1)
 
-bash : 1
+bash : 0
 
 # Expriment Parameter
 # - 0 = preprocess data (from reduced volumes to y component of 1550 slices plus phases)
@@ -18,7 +18,7 @@ bash : 1
 # - 2 = load results
 # - 3 = run evaluation
 
-experiment: 3 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
+experiment: 1 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
 
 # Path Parameters - used for running 'locally' - but within a docker container, not kubernetes
 # - paths are mounted as /develop/data, /develop/code, /develop/results
@@ -71,7 +71,7 @@ network:
   batch_size: 4
   num_epochs: 50
   learning_rate: 0.01
-  scheduler: 1
+  scheduler: 0
 
 # RNN / LSTM Parameters
 # - num_layers: number of rnn / lstm layers (i.e., stacked networks)
@@ -120,7 +120,7 @@ seq_len:
 kube :
   namespace : gpn-mizzou-muem
   image : docker.io/kovaleskilab/meep:v3_lightning
-  job_files : /develop/data/kube_jobs  # this is a local directory
+  job_files : /home/mindful/Documents/data/kube_jobs  # this is a local directory
   pvc_volumes : dft-volumes # use `kubectl get pvc` to see list of pvcs
   pvc_preprocessed : preprocessed-data 
   pvc_results : training-results

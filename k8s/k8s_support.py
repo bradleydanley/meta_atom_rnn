@@ -61,7 +61,6 @@ def parse_args(all_args, tags = ["--", "-"]):
                 arg = arg.replace(current_tag, "")                
         results[arg] = all_args[i + 1]
         i += 2
-
     return results
 
 def load_config(argument):
