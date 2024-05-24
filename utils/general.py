@@ -53,5 +53,5 @@ def load_config(sys_args):
     for key, item in args.items():
         if key in params:
             params[key] = int(item)
-    
+    print(sys_args) 
     return params 
