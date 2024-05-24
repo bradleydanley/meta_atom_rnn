@@ -62,7 +62,7 @@ def load_data(params, override_seq_len = 0):
         path_train = params["mounted_paths"]["data"]["train"]
         path_valid = params["mounted_paths"]["data"]["valid"]
 
-    elif ['deployment_mode'] == 1:
+    elif params['deployment_mode'] == 1:
         path_train = params['kube']['train_job']['paths']['data']['train']
         path_valid = params['kube']['train_job']['paths']['data']['valid']
 
