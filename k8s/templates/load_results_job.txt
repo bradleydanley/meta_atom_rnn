@@ -21,7 +21,7 @@ spec:
             - name: NCCL_DEBUG
               value: INFO
           command: ["/bin/sh", "-c"]
-          args: ["git clone https://github.com/Kovaleski-Research-Lab/meta_atom_rnn.git .;
+          args: ["git clone https://github.com/bradleydanley/meta_atom_rnn.git .;
                   echo cloned repo for load data job;
                   python3 main.py -config configs/params.yaml"]
           resources:
