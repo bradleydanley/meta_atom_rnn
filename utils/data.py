@@ -31,7 +31,7 @@ def load_pickle_data(path, seq_len, dtype=np.float32, order=(-1, 0, 1, 2)):
     all_samples, all_labels = [], []
 
     for current_file in os.listdir(path): # loop through pickle files
-
+        print(current_file,flush=True)
         current_file = os.path.join(path, current_file)
         data = pickle.load(open(current_file, "rb"))
 
