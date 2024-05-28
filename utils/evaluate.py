@@ -72,4 +72,6 @@ def run(params):
     bars_dir = "all_bars"
     organize_analysis(params, path_analysis, bars_dir, 'measures', '.pdf')
     
-    
+    #os.remove(os.path.join(path_analysis,'all_measures.pkl'),'rb')
+    #os.remove(os.path.join(path_analysis,'all_preds.pkl'),'rb')
+    #os.remove(os.path.join(path_analysis,'all_loss.pkl'),'rb')
