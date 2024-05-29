@@ -45,7 +45,7 @@ def get_preds(data, model):
     if all_results["truths"] == expected_shape:
         all_results["truths"] = torch.stack(all_results["truths"])
     else:
-        print(all_results["truth"], "isn't the same")
+        print(all_results["truths"], "isn't the same")
     all_results["preds"] = torch.stack(all_results["preds"])
 
     # n is a result of stacking in line 39,40
