@@ -14,7 +14,7 @@ from IPython import embed
 #from utils.data import load_data
 from utils.general import create_folder
 from utils.measures import get_all_measures
-from utils.network.support import get_all_model_predictions, organize_analysis
+from utils.network.support import get_all_model_predictions, organize_analysis, move_to_new_folder 
 from utils.plots import plot_loss, plot_bars
 import utils.plots as plots
 from utils.network.load_results import get_save_folders
@@ -72,6 +72,10 @@ def run(params):
     bars_dir = "all_bars"
     organize_analysis(params, path_analysis, bars_dir, 'measures', '.pdf')
     
+    folders = [flipbooks_dir,loss_dir,bars_dir,"scatter_lstm.pdf","scatter_rnn.pdf"]
+    move_to_new_folder(params, folders, path_analysis,"all_analysis") 
+    
+ 
     #os.remove(os.path.join(path_analysis,'all_measures.pkl'),'rb')
     #os.remove(os.path.join(path_analysis,'all_preds.pkl'),'rb')
     #os.remove(os.path.join(path_analysis,'all_loss.pkl'),'rb')

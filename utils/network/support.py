@@ -11,9 +11,9 @@ import numpy as np
 import csv
 
 from tqdm import tqdm
-
+import subprocess
 from utils.network.models import Network
-
+from utils.general import create_folder
 
 def load_model(path, device, params):
 
@@ -159,6 +159,29 @@ def organize_analysis(params, path_analysis, dir_name, tag, file_type):
             elif f.endswith(file_type):
 
                 move_files(f, folder, dir_path) 
+
+def move_to_new_folder(params, folders, path, final_path_name):
+    #folders is a list with the files you want to move
+    #path is the path to where the files are at originally
+
+    #creates a new directory with the name file_path_name
+    final_path = os.path.join(path,final_path_name)
+    create_folder(final_path)
+        
+    for folder in folders:
+        #loops through each item given in the folders list
+        folder_path =  os.path.join(path,folder) #gets the specific folder_path
+        dest_path = os.path.join(final_path,folder) #makes a destination path
+        #checks if the path exists and replaces it if it does already
+        if os.path.exists(folder_path):
+            if os.path.exists(dest_path):
+                if os.path.isdir(dest_path):
+                    shutil.rmtree(dest_path)
+                else:
+                    os.remove(dest_path)
+        #moves the files to the final path
+        subprocess.run(["mv",folder_path,final_path])
+        
 
 def write_stats(params, time):
 
