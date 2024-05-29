@@ -168,36 +168,12 @@ kube :
 
   load_results_job :
     num_mem_req : 64Gi
-    num_mem_lim : 128Gi
+    num_mem_lim : 64Gi
     paths :
       template : templates/load_results_job.txt
       params: /develop/code/meta_atom_rnn/configs/params.yaml
 
   evaluation_job :
     paths:
-      template : templates/evaluation_job.txt          
-
-    paths :
-      data :
-        train : /develop/data/preprocessed_data/train
-        valid : /develop/data/preprocessed_data/valid
-      results :
-        # interactive pod directories
-        model_results : /develop/results
-        model_checkpoints : /develop/results/checkpoints
-        analysis : /develop/results/analysis
-      logs : /develop/results/checkpoints/current_logs
-      # local path where template is located
-      template : templates/train_job.txt
-
-  load_results_job :
-    num_mem_req : 64Gi
-    num_mem_lim : 128Gi
-    paths :
-      template : templates/load_results_job.txt
-      params: /develop/code/meta_atom_rnn/configs/params.yaml
-
-  evaluation_job :
-    paths:
-      template : templates/evaluation_job.txt          
-
+      template : templates/evaluation_job.txt
+    kill_tag : evaluation           

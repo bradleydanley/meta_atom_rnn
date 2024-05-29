@@ -63,18 +63,12 @@ def run(params):
     
 if __name__=="__main__":
 
-    kill = False
-    kill = True
 
     args = parse_args(sys.argv)
 
     params = load_config(args['config'])
 
-    if kill == False:
 
-        run(params)
+    run(params)
 
-    elif kill == True:
-        kill_tags = params['kube']['evaluation']['kill_tag']
-        for kill_tag in kill_tags: 
-            exit_handler(params,kill_tag)
+  
