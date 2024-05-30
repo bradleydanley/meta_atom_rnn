@@ -21,9 +21,9 @@ def run(params):
 
     experiment = params['experiment'] 
     
-    if experiment == 1:
+    if experiment == 2:
         job = 'load_results_job'
-    elif experiment == 2:
+    elif experiment == 3:
         job = 'evaluation_job' 
 
     job_name = job.replace('_','-')    
