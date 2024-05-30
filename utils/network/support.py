@@ -41,16 +41,16 @@ def get_preds(data, model):
         all_results["preds"].append(preds)
     
     #DEBUG and still run
-    expected_shape = [4, 5, 2, 166, 166]
-    if all_results["truths"] == expected_shape:
-        all_results["truths"] = torch.stack(all_results["truths"])
-    else:
-        print(all_results["truths"], "isn't the same")
+    if all_results["truths"][0].size() != all_results["truths"][-1].size() or all_results["preds"][0].size() != all_results["preds"][-1].size():
+        all_results["truths"] = all_results["truths"][:-1]
+        all_results["preds"] = all_results["preds"][:-1] 
+
+    all_results["truths"] = torch.stack(all_results["truths"])
     all_results["preds"] = torch.stack(all_results["preds"])
 
-    # n is a result of stacking in line 39,40
+    # n is a result of stacking in above lines
     n, b, s, c, h, w = all_results["truths"].size()
-
+    print(all_results["truths"][:].size())
     all_results["truths"] = all_results["truths"].view(n * b, s, c, h, w)
     all_results["preds"] = all_results["preds"].view(n * b, s, c, h, w)
 
