@@ -35,7 +35,7 @@ def run(params):
     template = environment.get_template(tag)
 
     create_folder(params['kube']['job_files'])
-
+    
     template_info = {'job_name': job_name,
                      'num_cpus': str(params['kube']['train_job']['num_cpus']),
                      'num_gpus': str(params['kube']['train_job']['num_gpus']),

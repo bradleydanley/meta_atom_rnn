@@ -9,6 +9,7 @@ spec:
   template:
     spec:
       restartPolicy: Never 
+
       containers:
         - name: {{job_name}}
           image: {{path_image}} 
@@ -22,8 +23,8 @@ spec:
               value: INFO
           command: ["/bin/sh", "-c"]
           args: ["git clone https://github.com/bradleydanley/meta_atom_rnn.git .;
-                  echo cloned repo for load data job;
-                  python3 main.py -config configs/params.yaml"]
+                  echo cloned repo for load data job, sequence {{sequence}};
+                  python3 main.py -config configs/params.yaml -sequence {{sequence}}"]
           resources:
             limits:
               memory: {{num_mem_lim}} 

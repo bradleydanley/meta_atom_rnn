@@ -449,9 +449,12 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
                     x_vals = list(range(df.shape[0]))
                 else:
                     x_vals = df[tag]
-
+                
+                x_final = x_vals[-1]
                 y_vals = df[name]
-
+                y_final = y_vals[-1]
+            
+                
                 if i == 0:
                     label = "RNN"
                 elif i == 1:
@@ -468,6 +471,9 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
             ax.legend(loc="upper right", fontsize=fontsize-6)
             ax.tick_params(axis='y', labelsize=fontsize)
             ax.tick_params(axis='x', labelsize=fontsize)
+            
+            #new addition adding a final point
+            plt.annotate('%.4f,%.4f)' % zip(x_final,y_final),xy=zip(x_final,y_final)) 
 
             if y_lim is not None:
                 ax.set_ylim(y_lim)
