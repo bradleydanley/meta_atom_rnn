@@ -71,8 +71,8 @@ def run(params):
 if __name__=="__main__":
 
 
-    #kill = False
-    kill = True
+    kill = False
+    #kill = True
      
     args = parse_args(sys.argv)
 

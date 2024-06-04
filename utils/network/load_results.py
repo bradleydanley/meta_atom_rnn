@@ -3,6 +3,7 @@ import yaml
 import numpy as np
 import pickle
 import pandas as pd
+from datetime import datetime
 
 from utils.data import load_data
 from utils.general import create_folder
@@ -182,4 +183,5 @@ def run(params):
         print("Loss file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
-
+    end_time = datetime.now()
+    print(f"Program ended at {end_time}")
