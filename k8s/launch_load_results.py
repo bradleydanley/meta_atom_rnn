@@ -21,7 +21,7 @@ def run(params):
 
     job = 'load_results_job'
 
-    job_name = job.replace('_','-')    
+    job_name_origin = job.replace('_','-')    
 
     template = load_file(params['kube'][job]['paths']['template'])
     tag = params['kube'][job]['paths']['template'].split("/")[-1]
@@ -31,12 +31,12 @@ def run(params):
 
     create_folder(params['kube']['job_files'])
     
-    sequences = ['visualize']['sequences']
+    sequences = params['visualize']['sequences']
  
     for sequence in sequences:
         params['dataset']['seq_len'] = sequence
     
-        job_name = "%s-%s" % (job_name, str(sequence))
+        job_name = "%s-%s" % (job_name_origin, str(sequence))
  
         template_info = {'job_name': job_name,
                         'num_cpus': str(params['kube']['train_job']['num_cpus']),
@@ -71,11 +71,19 @@ def run(params):
 if __name__=="__main__":
 
 
+    #kill = False
+    kill = True
+     
     args = parse_args(sys.argv)
 
     params = load_config(args['config'])
 
+    if kill == False:
 
-    run(params)
+        run(params)
+
+    elif kill == True:
+        kill_tag = params['kube']['load_results_job']['kill_tag']
+        exit_handler(params,kill_tag)
 
   

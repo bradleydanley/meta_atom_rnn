@@ -140,8 +140,8 @@ def run(params):
         create_folder(path_analysis)
     
     #create_folder(os.path.join(params['paths']['results'], 'analysis'))
-
-   """ sequences = params['visualize']['sequences'] 
+    """
+    sequences = params['visualize']['sequences'] 
 
     all_preds, all_measures, all_loss = {}, {}, {}
     for val in sequences:
