@@ -156,6 +156,9 @@ def run(params):
 
         print(f"val = {val}", flush=True) """
     sequence = params['seq_len']
+
+    all_preds, all_measures, all_loss = {}, {}, {}
+
     params['dataset']['seq_len'] = sequence
     
     preds, measures, loss, all_paths = organize_results(params, path_results, sequence)
