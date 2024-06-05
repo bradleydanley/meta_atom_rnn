@@ -141,20 +141,7 @@ def run(params):
         create_folder(path_analysis)
     
     #create_folder(os.path.join(params['paths']['results'], 'analysis'))
-    """
-    sequences = params['visualize']['sequences'] 
 
-    all_preds, all_measures, all_loss = {}, {}, {}
-    for val in sequences:
-
-        params['dataset']['seq_len'] = val
-
-        preds, measures, loss, all_paths = organize_results(params,path_results,val)
-        all_loss[val] = loss
-        all_preds[val] = preds
-        all_measures[val] = measures
-
-        print(f"val = {val}", flush=True) """
     sequence = params['seq_len']
 
     all_preds, all_measures, all_loss = {}, {}, {}

@@ -32,7 +32,6 @@ def run(params):
     create_folder(params['kube']['job_files'])
     
     sequences = params['visualize']['sequences']
- 
     for sequence in sequences:
         params['dataset']['seq_len'] = sequence
     
@@ -61,6 +60,7 @@ def run(params):
 
         subprocess.run(['kubectl', 'apply', '-f', path_job])
         print(f"launching job for {job_name}")
+        #from IPython import embed; embed();
 
 
 
