@@ -450,6 +450,10 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
                 else:
                     x_vals = df[tag]
                 
+                #This is so x_vals.iloc[-1] always works
+                if not isinstance(x_vals, pd.Series):
+                    x_vals = pd.Series(x_vals)
+
                 x_final = x_vals.iloc[-1]
                 y_vals = df[name]
                 y_final = y_vals.iloc[-1]
