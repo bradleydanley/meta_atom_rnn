@@ -450,7 +450,7 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
                 else:
                     x_vals = df[tag]
                 
-                x_final = x_vals[-1]
+                x_final = x_vals.iloc[-1]
                 y_vals = df[name]
                 y_final = y_vals.iloc[-1]
             
