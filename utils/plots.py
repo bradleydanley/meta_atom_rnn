@@ -473,7 +473,7 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
             ax.tick_params(axis='x', labelsize=fontsize)
             
             #new addition adding a final point
-            plt.annotate('%.4f,%.4f)' % zip(x_final,y_final),xy=zip(x_final,y_final)) 
+            plt.annotate('%.4f,%.4f)' % (x_final,y_final) ,xy=(x_final,y_final)) 
 
             if y_lim is not None:
                 ax.set_ylim(y_lim)
@@ -481,5 +481,5 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
             fig.tight_layout()
             #print(f"before saving loss: path_file is {path_file}")
             fig.savefig(path_file)
-
+            plt.show()
             plt.close()
