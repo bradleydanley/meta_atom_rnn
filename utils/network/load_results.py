@@ -154,21 +154,21 @@ def run(params):
     all_measures[sequence] = measures
         
     try:
-        with open(os.path.join(path_analysis, 'all_preds.pkl'), 'wb') as f: 
+        with open(os.path.join(path_analysis, 'all_preds_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
             pickle.dump(all_preds, f)
         print("Preds file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
-        with open(os.path.join(path_analysis, 'all_measures.pkl'), 'wb') as f: 
+        with open(os.path.join(path_analysis, 'all_measures_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
             pickle.dump(all_measures, f)
         print("Measures file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
-        with open(os.path.join(path_analysis, 'all_loss.pkl'), 'wb') as f: 
+        with open(os.path.join(path_analysis, 'all_loss_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
             pickle.dump(all_loss, f)
         print("Loss file dumped successfully.")
     except Exception as e:
