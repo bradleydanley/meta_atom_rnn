@@ -31,7 +31,7 @@ def get_save_folders(params,path_results,create):
         path_results = os.path.join(path_results, "k_" + str(params['dataset']['seq_len']).zfill(2))
     elif params['deployment_mode'] == 1:
         path_results = os.path.join(path_results, "checkpoints", "k_" + str(params['dataset']['seq_len']).zfill(2))
-        print("path result =", path_results)
+
     if create==True:
         create_folder(path_loss)
         create_folder(path_images)
