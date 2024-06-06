@@ -413,7 +413,7 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
     exclude_group = params['visualize']['exclude_group']
     sequences = params['visualize']['sequences']
     for some_data in all_data:
-        for val, all_loss in all_data.items(): 
+        for val, all_loss in some_data.items(): 
 
             if val not in sequences:
                 continue
