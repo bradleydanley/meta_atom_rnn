@@ -403,7 +403,7 @@ def plot_truth_and_pred_images(params, all_data, path_results, sample_idx=0, fig
             valid_path = os.path.join(all_paths['images'],v_tag,'valid')
 
             image_plotter(train_images, "train", titles, version, train_bounds, train_path, figsize, fontsize)
-            image_plotter(valid_images, "train", titles, version, valid_bounds, valid_path, figsize, fontsize)
+            image_plotter(valid_images, "valid", titles, version, valid_bounds, valid_path, figsize, fontsize)
 
 
 def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), fontsize=fontsize):
@@ -477,7 +477,7 @@ def plot_loss(params, all_data, path_results, y_lim=[0,0.18], figsize=(10, 5), f
             ax.tick_params(axis='x', labelsize=fontsize)
             
             #new addition adding a final point
-            plt.annotate('y=%.4f' % (y_final) ,xy=(x_final,y_final)) 
+            plt.annotate('%.4f,%.4f)' % (x_final,y_final) ,xy=(x_final,y_final)) 
 
             if y_lim is not None:
                 ax.set_ylim(y_lim)
