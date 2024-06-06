@@ -43,7 +43,7 @@ def run(params):
         all_preds.append(pickle.load(open(os.path.join(path_analysis, 'all_preds_k{:02d}.pkl'.format(seq)),'rb')))
         all_loss.append(pickle.load(open(os.path.join(path_analysis, 'all_loss_k{:02d}.pkl'.format(seq)),'rb')))
 
-     """
+    """
     all_measures = pickle.load(open(os.path.join(path_analysis,'all_measures.pkl'),'rb')) # this returns aggregates for bar plots
     all_preds = pickle.load(open(os.path.join(path_analysis,'all_preds.pkl'),'rb'))
     all_loss = pickle.load(open(os.path.join(path_analysis,'all_loss.pkl'),'rb'))
