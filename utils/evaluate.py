@@ -39,6 +39,7 @@ def run(params):
     sequences = params['visualize']['sequences']
     all_measures, all_loss, all_preds = [],[],[]
     for seq in sequences:
+        from IPython import embed; embed();
         all_measures.append(pickle.load(open(os.path.join(path_analysis, 'all_measures_k{:02d}.pkl'.format(seq)),'rb')))
         all_preds.append(pickle.load(open(os.path.join(path_analysis, 'all_preds_k{:02d}.pkl'.format(seq)),'rb')))
         all_loss.append(pickle.load(open(os.path.join(path_analysis, 'all_loss_k{:02d}.pkl'.format(seq)),'rb')))
