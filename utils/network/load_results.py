@@ -144,32 +144,33 @@ def run(params):
 
     sequence = params['seq_len']
 
-    all_preds, all_measures, all_loss = {}, {}, {}
+    #all_preds, all_measures, all_loss = {}, {}, {}
 
     params['dataset']['seq_len'] = sequence
     
     preds, measures, loss, all_paths = organize_results(params, path_results, sequence)
-    all_loss[sequence] = loss
-    all_preds[sequence] = preds
-    all_measures[sequence] = measures
+
+    #all_loss[sequence] = loss
+    #all_preds[sequence] = preds
+    #all_measures[sequence] = measures
         
     try:
         with open(os.path.join(path_analysis, 'all_preds_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
-            pickle.dump(all_preds, f)
+            pickle.dump(preds, f)
         print("Preds file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
         with open(os.path.join(path_analysis, 'all_measures_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
-            pickle.dump(all_measures, f)
+            pickle.dump(measures, f)
         print("Measures file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
 
     try:
         with open(os.path.join(path_analysis, 'all_loss_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
-            pickle.dump(all_loss, f)
+            pickle.dump(loss, f)
         print("Loss file dumped successfully.")
     except Exception as e:
         print("Dump error: ", e)
