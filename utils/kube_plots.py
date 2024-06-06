@@ -366,7 +366,7 @@ def plot_truth_and_pred_images(params, all_data, path_results, sample_idx=0, fig
     domain = params['visualize']['domain']
     sequences = params['visualize']['sequences']
     for some_data in all_data:
-        for val, all_preds in all_data.items(): # val=exp number 
+        for val, all_preds in some_data.items(): # val=exp number 
 
             #if val > sequences[-1]:
             if val not in sequences:
