@@ -31,7 +31,7 @@ def get_save_folders(params,path_results,create):
         path_results = os.path.join(path_results, "k_" + str(params['dataset']['seq_len']).zfill(2))
     elif params['deployment_mode'] == 1:
         path_results = os.path.join(path_results, "checkpoints", "k_" + str(params['dataset']['seq_len']).zfill(2))
-        print("path result =", path_results)
+
     if create==True:
         create_folder(path_loss)
         create_folder(path_images)
@@ -128,31 +128,41 @@ def organize_results(params,path_results,override_seq_len):
                }
     return preds, measures, all_loss, all_paths 
 
+def organize_vars(params,all_preds,all_measures,all_loss,sequence, path_results):
+    
+    params['dataset']['seq_len'] = sequence
+   
+    preds, measures, loss, all_paths = organize_results(params, path_results, sequence)
+    
+    all_loss[sequence] = loss
+    all_preds[sequence] = preds
+    all_measures[sequence] = measures
+    
+    return all_loss, all_preds, all_measures
 
 def run(params):
+
+    all_preds, all_measures, all_loss = {}, {}, {}
+    sequence = params['seq_len']
 
     if params['deployment_mode'] == 0:
         path_results = params['mounted_paths']['results']['checkpoints']
         path_analysis = params['mounted_paths']['results']['analysis']
-        create_folder(path_analysis)
+        
+        #will loop through all k values sequentially
+        sequences = params['visualize']['sequences']
+        for val in sequences:
+            all_loss, all_preds, all_measures = organize_vars(params, all_preds, all_measures, all_loss, val, path_results)
+
+        sequence = 0 #files will print as k00 when using this deployment mode 
+
     elif params['deployment_mode'] == 1:
         path_results =  params['kube']['train_job']['paths']['results']['model_results']
         path_analysis = params['kube']['train_job']['paths']['results']['analysis']
-        create_folder(path_analysis)
-    
-    #create_folder(os.path.join(params['paths']['results'], 'analysis'))
 
-    sequence = params['seq_len']
+        all_loss, all_preds, all_measures = organize_vars(params, all_preds, all_measures, all_loss, sequence, path_results)
 
-    all_preds, all_measures, all_loss = {}, {}, {}
-
-    params['dataset']['seq_len'] = sequence
-    
-    preds, measures, loss, all_paths = organize_results(params, path_results, sequence)
-
-    all_loss[sequence] = loss
-    all_preds[sequence] = preds
-    all_measures[sequence] = measures
+    create_folder(path_analysis)
         
     try:
         with open(os.path.join(path_analysis, 'all_preds_k{:02d}.pkl'.format(sequence)), 'wb') as f: 
