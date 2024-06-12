@@ -18,7 +18,7 @@ bash : 0
 # - 2 = load results
 # - 3 = run evaluation
 
-experiment: 2 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
+experiment: 3 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
 
 # Path Parameters - used for running 'locally' - but within a docker container, not kubernetes
 # - paths are mounted as /develop/data, /develop/code, /develop/results
