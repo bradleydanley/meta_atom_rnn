@@ -30,7 +30,6 @@ To run this script:
 import sys
 import os
 import pickle
-import time
 
 import utils.evaluate as evaluate
 import utils.network.train as train
@@ -80,7 +79,7 @@ def experiment(params):
 
 
 if __name__ == "__main__":
-    print("got here in main.py 83")
+    print("got here in main.py 83", flush=True)
     # Load: Configuration File
     params = load_config(sys.argv)
     if params['deployment_mode'] == 1 or params['bash'] == 1:
