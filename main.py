@@ -80,7 +80,7 @@ def experiment(params):
 
 
 if __name__ == "__main__":
-
+    print("got here in main.py 83")
     # Load: Configuration File
     params = load_config(sys.argv)
     if params['deployment_mode'] == 1 or params['bash'] == 1:

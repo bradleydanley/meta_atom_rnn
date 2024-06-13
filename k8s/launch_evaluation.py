@@ -27,7 +27,7 @@ def run(params):
         job = 'evaluation_job' 
 
     job_name = job.replace('_','-')    
-    print("got here 30")
+
     template = load_file(params['kube'][job]['paths']['template'])
     tag = params['kube'][job]['paths']['template'].split("/")[-1]
     folder = params['kube'][job]['paths']['template'].replace("/%s" % tag, "")
@@ -49,11 +49,12 @@ def run(params):
                      'path_image': params['kube']['image'],
                      #'path_logs': params['kube']['path_logs'],
                     }
-    print("got here 52")
+
     filled_template = template.render(template_info)
 
-    path_job = os.path.join(params['kube']['job_files'], job_name.zfill(2) + ".yaml")
 
+    path_job = os.path.join(params['kube']['job_files'], job_name.zfill(2) + ".yaml")
+    print(path_job)
     save_file(path_job, filled_template)
 
 
@@ -68,7 +69,6 @@ if __name__=="__main__":
 
     params = load_config(args['config'])
 
-    print("got here 71")
     run(params)
 
   
