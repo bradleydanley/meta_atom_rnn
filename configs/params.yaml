@@ -18,7 +18,7 @@ bash : 0
 # - 2 = load results
 # - 3 = run evaluation
 
-experiment: 3 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
+experiment: 1 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
 
 # Path Parameters - used for running 'locally' - but within a docker container, not kubernetes
 # - paths are mounted as /develop/data, /develop/code, /develop/results
@@ -68,8 +68,8 @@ dataset:
 # - scheduler: defines scheduler use (0=scheduler on, 1=scheduler off)
 network:
   arch:  
-  batch_size: 24
-  num_epochs: 200
+  batch_size: 60
+  num_epochs: 50
   learning_rate: 0.01
   scheduler: 0
 

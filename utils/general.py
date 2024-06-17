@@ -17,12 +17,10 @@ def create_folder(path):
         print(f"path {path} already exists.")
 
 def load_yaml(argument):
-
     return yaml.load(open(argument), Loader=yaml.FullLoader)
 
 
 def parse_args(all_args):
-
     tags = ["--", "-"]
 
     all_args = all_args[1:]
@@ -46,7 +44,6 @@ def parse_args(all_args):
 
 
 def load_config(sys_args):
-
     args = parse_args(sys_args)
     
     params = load_yaml(args["config"])

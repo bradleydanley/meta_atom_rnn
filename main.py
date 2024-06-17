@@ -68,7 +68,7 @@ def experiment(params):
     # Experiment: Run evaluation
     elif params["experiment"] == 3:
 
-        print("Running evaluation...")
+        print("Running evaluation...",flush=True)
 
         evaluate.run(params)
 
@@ -79,7 +79,7 @@ def experiment(params):
 
 
 if __name__ == "__main__":
-    print("got here in main.py 83", flush=True)
+    print("Loading configuration File")
     # Load: Configuration File
     params = load_config(sys.argv)
     if params['deployment_mode'] == 1 or params['bash'] == 1:
@@ -90,7 +90,6 @@ if __name__ == "__main__":
         print(f"params['dataset']['seq_len'] = {params['dataset']['seq_len']}")
         print(f"params['network']['arch'] = {params['network']['arch']}")
         print(f"params['experiment'] = {params['experiment']}")
-
     # Run: Experiment
     experiment(params)
     
