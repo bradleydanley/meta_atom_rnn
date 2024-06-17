@@ -18,7 +18,7 @@ bash : 0
 # - 2 = load results
 # - 3 = run evaluation
 
-experiment: 1 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
+experiment: 2 # setting this to 1?? Don't forget to set bash to 1 if you're using ./train.sh!! 
 
 # Path Parameters - used for running 'locally' - but within a docker container, not kubernetes
 # - paths are mounted as /develop/data, /develop/code, /develop/results
@@ -103,8 +103,8 @@ convlstm:
 visualize:
   all_versions: ['rnn', 'lstm']
   exclude_group: [epoch, step]
-  sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  #sequences: [5,10,15]
+  #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
+  sequences: [5,10,15]
   domain : real
 
 # Copies of parameters for automation - These are used as arguments to be passed at runtime
