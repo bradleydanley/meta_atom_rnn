@@ -166,8 +166,8 @@ kube :
       template : templates/train_job.txt
 
   load_results_job :
-    num_mem_req : 512Gi
-    num_mem_lim : 512Gi
+    num_mem_req : 128Gi
+    num_mem_lim : 128Gi
     paths :
       template : templates/load_results_job.txt
       params: /develop/code/meta_atom_rnn/configs/params.yaml
