@@ -104,7 +104,7 @@ visualize:
   all_versions: ['rnn', 'lstm']
   exclude_group: [epoch, step]
   #sequences : [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]
-  sequences: [30]
+  sequences: [45]
   domain : real
 
 # Copies of parameters for automation - These are used as arguments to be passed at runtime
