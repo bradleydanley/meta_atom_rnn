@@ -26,7 +26,7 @@ def get_colors(num_colors):
 
     return colors
 
-def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize, path_results, ylim=15):
+def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize, path_results, ylim=(0,15):
 
     colors = get_colors(3)
 
