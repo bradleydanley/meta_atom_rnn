@@ -44,6 +44,7 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
     title = 'Exp %s, %s dataset, %s, \nFrame %s' % (experiment, dataset, version, j)
     ax.set_title(title)
     ax.set_xlabel('Wavefront Slice')
+    ax.set_ylim(ylim)
     if (len(meas_list[measure]) == 50):
         ax.set_xticks(np.linspace(0, len(meas_list[measure])-1, 6).astype(int))
     else:
@@ -58,7 +59,7 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
                 
 
 def plot_truth_and_pred_measures(params, all_preds, path_results, sample_idx = 0,
-                                 figsize=(16,4), fontsize=fontsize, ylim=[0,15]):
+                                 figsize=(16,4), fontsize=fontsize, ylim=(0,15)):
 
     sequences = params['visualize']['sequences']
     domain = 0 if params['visualize']['domain']=='real' else 1
@@ -90,7 +91,7 @@ def plot_truth_and_pred_measures(params, all_preds, path_results, sample_idx = 0
                         meas_list['mae'].append(calc_mae(preds[j], truths[j]))
                         meas_list['emd'].append(calc_emd(preds[j], truths[j]))  
                         print(f"plotting measures for {experiment},{dataset},{version},frame{j}")
-                        measures_plotter(params,meas_list,experiment,dataset,version,j,figsize,path_results)
+                        measures_plotter(params,meas_list,experiment,dataset,version,j,figsize,path_results, ylim)
 
                         plt.close()
 
