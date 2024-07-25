@@ -26,7 +26,7 @@ def get_colors(num_colors):
 
     return colors
 
-def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize, path_results, ylim=(0,15):
+def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize, path_results, ylim=(0,15)):
 
     colors = get_colors(3)
 
@@ -40,17 +40,16 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
         num_samples = len(meas_list[measure])
         scaled_meas = [val*100 for val in meas_list[measure]]
         ax.plot(meas_list['time'][:num_samples], scaled_meas, '-o', label=measure.upper(), c=colors[i])
-
     title = 'Exp %s, %s dataset, %s, \nFrame %s' % (experiment, dataset, version, j)
     ax.set_title(title)
     ax.set_xlabel('Wavefront Slice')
+    ax.set_ylim(ylim)
+
     if (len(meas_list[measure]) == 50):
         ax.set_xticks(np.linspace(0, len(meas_list[measure])-1, 6).astype(int))
-        ax.set_ylim(0,15)
     else:
         ax.set_xticks(meas_list['time'][:num_samples])
     ax.set_ylabel('Error (%)')
-    ax.set_ylim(0,15)
     ax.legend(loc='upper right')
 
     fig.tight_layout()
@@ -90,7 +89,7 @@ def plot_truth_and_pred_measures(params, all_preds, path_results, sample_idx = 0
                     meas_list['mae'].append(calc_mae(preds[j], truths[j]))
                     meas_list['emd'].append(calc_emd(preds[j], truths[j]))  
                     print(f"plotting measures for {experiment},{dataset},{version},frame{j}")
-                    measures_plotter(params,meas_list,experiment,dataset,version,j,figsize,path_results)
+                    measures_plotter(params,meas_list,experiment,dataset,version,j,figsize,path_results,ylim)
 
                     plt.close()
 
