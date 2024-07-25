@@ -44,7 +44,7 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
     ax.set_title(title)
     ax.set_xlabel('Wavefront Slice')
     ax.set_ylim(ylim)
-
+    print("ylim was set", ylim)
     if (len(meas_list[measure]) == 50):
         ax.set_xticks(np.linspace(0, len(meas_list[measure])-1, 6).astype(int))
     else:
