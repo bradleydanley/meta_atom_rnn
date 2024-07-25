@@ -46,10 +46,11 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
     ax.set_xlabel('Wavefront Slice')
     if (len(meas_list[measure]) == 50):
         ax.set_xticks(np.linspace(0, len(meas_list[measure])-1, 6).astype(int))
+        ax.set_ylim(0,15)
     else:
         ax.set_xticks(meas_list['time'][:num_samples])
     ax.set_ylabel('Error (%)')
-    ax.ylim(0,15)
+    ax.set_ylim(0,15)
     ax.legend(loc='upper right')
 
     fig.tight_layout()
