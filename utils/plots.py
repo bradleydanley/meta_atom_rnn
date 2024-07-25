@@ -49,7 +49,7 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
     else:
         ax.set_xticks(meas_list['time'][:num_samples])
     ax.set_ylabel('Error (%)')
-    ax.set_ylim(ylim)
+    ax.ylim(0,15)
     ax.legend(loc='upper right')
 
     fig.tight_layout()
