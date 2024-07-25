@@ -59,7 +59,7 @@ def measures_plotter(params, meas_list, experiment, dataset, version, j, figsize
                 
 
 def plot_truth_and_pred_measures(params, all_preds, path_results, sample_idx = 0,
-                                 figsize=(16,4), fontsize=fontsize, ylim=(0,15)):
+                                 figsize=(16,4), fontsize=fontsize, ylim=(0,12)):
 
     sequences = params['visualize']['sequences']
     domain = 0 if params['visualize']['domain']=='real' else 1
